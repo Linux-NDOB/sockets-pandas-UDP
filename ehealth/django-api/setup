@@ -1,0 +1,28 @@
+# Instrucciones de instalacion de venv, dango, vue y dependencias del proyecto
+
+# Primero instalamos el venv 
+
+virtualenv -p python3 env
+
+# Para activar el venv solo usamos dentro de la carpeta del proyecto
+
+source env/bin/activate
+
+# Instalamos Django
+
+pip install django
+
+# Iniciamos el proyecto
+
+django-admin startproject project-backend
+
+# creo que se podria con python manage.py startproject backend, recordemos que 
+# no se deben usar nombres relacionados con palabras reservadas en python, es un complique
+
+# Esto es para crear la app donde vienen las bases de datos que sirvan al backend
+
+pthon manage.py startapp project-databases
+
+# ahora viene vite
+
+
