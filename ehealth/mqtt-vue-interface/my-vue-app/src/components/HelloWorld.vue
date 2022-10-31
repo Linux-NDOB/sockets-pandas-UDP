@@ -81,39 +81,9 @@ function onMessageArrived(message) {
 </script>
 
 <template>
-  <Menubar
-    class="absolute top-0 left-0 px-2 py-2 w-full font-bold bg-indigo-500 border-0"
-  >
-    <template #start>
-      <img
-        alt="logo"
-        src="https://cdn-icons-png.flaticon.com/512/2438/2438018.png"
-        height="40"
-        class="mr-2"
-      />
-      <Button
-        label="EHEALTH"
-        class="p-button-text text-white text-xl font-medium"
-      />
-    </template>
-    <template #end>
-      <Button
-        icon="pi pi-user"
-        label="Usuario"
-        class="p-button-text text-white text-xl font-medium"
-      />
-      <Button
-        icon="pi pi-sign-out"
-        label="Salir"
-        class="p-button-text text-white text-xl font-medium"
-      />
-    </template>
-  </Menubar>
-
-  <div class="card">
-    <div class="card mb-3  font-base">
-      <h2 class="bg-pink-600 text-white p-2">DATOS RELACIONADOS CON EL PACIENTE</h2>
-    </div>
+  
+  <div class="container">
+    
 
     <div class="flex flex align-items-center justify-content-center ">
       <Knob class="mr-3" v-model="jtemp" :min="0" :max="100" />
@@ -147,25 +117,4 @@ function onMessageArrived(message) {
     </div>
   </div>
 
-  <div
-    class="layout-footer absolute bottom-0 bg-indigo-600 w-full left-0 border-0 p-1 text-white text-xs font-medium"
-    style="height: 50px"
-  >
-    <div class="layout-footer-left">
-      <span>PrimeVue 3.17.1-SNAPSHOT on Vue 3 by </span>
-      <a href="https://www.primetek.com.tr">PrimeTek</a>
-    </div>
-
-    <div class="layout-footer-right">
-      <a href="https://github.com/primefaces/primevue" class="mr-3">
-        <i class="pi pi-github"></i>
-      </a>
-      <a href="https://twitter.com/primevue" class="mr-3">
-        <i class="pi pi-twitter"></i>
-      </a>
-      <a href="https://discord.com/invite/gzKFYnpmCY">
-        <i class="pi pi-discord"></i>
-      </a>
-    </div>
-  </div>
 </template>

@@ -1,5 +1,9 @@
 import { createApp } from 'vue'
-import './style.css'
+//import './style.css'
+
+import 'materialize-css/dist/css/materialize.min.css'
+import 'material-design-icons/iconfont/material-icons.css'
+
 
 import router from "./router";
 import store from "./store";

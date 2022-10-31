@@ -1,22 +1,32 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import Index from "./components/Index.vue";
+
+import Register from "./components/Register.vue";
+
 import Home from "./components/Home.vue";
-import About from "./components/About.vue";
+
 import Login from "./components/Login.vue";
+
 import User from "./components/User.vue";
-import Doctor from "./components/Home.vue";
-import Metrics from "./components/About.vue";
+
+import Doctor from "./components/Doctor.vue";
+
+
 
 const routes = [
-  { path: "/", component: Home },
-  { path: "/about", component: About },
-  { path: "/user", component: User },
-  { path: "/doctor", component: Doctor },
+  { path: "/", component: Index },
+  
   { path: "/login", component: Login },
-  { path: "/metrics", component: Metrics },
 
+  { path: "/register", component: Register },
 
+  { path: "/home", component: Home },
 
+  { path: "/user", component: User },
+
+  { path: "/doctor", component: Doctor },
+  
 ];
 
 const history = createWebHistory();
