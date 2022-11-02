@@ -4,129 +4,146 @@ import { createStore } from 'vuex';
 
 export default createStore({
 
-  state: {
-    patients:[],
-    doctors: []
+    state: {
+        patients: [],
+        doctors: []
 
-  },
-
-  getters: {
-    patients: (state) => state.patients,
-    doctors: (state) => state.doctors,
-  },
-
-  actions: {
-
-    GET_PATIENTS: async function ({ commit }) {
-      const res = await fetch("http://localhost:8000/apiV1/patients/");
-
-      const patients = await res.json();
-      
-      console.log(patients);
-
-      commit("SET_PATIENTS", patients);
     },
 
-    ADD_PATIENT: async function ({ commit }, array) {
-      const res = await fetch("http://localhost:8000/apiV1/patients/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    getters: {
+        patients: (state) => state.patients,
+        doctors: (state) => state.doctors,
+    },
+
+    actions: {
+
+        GET_PATIENTS: async function({ commit }) {
+            const res = await fetch("http://localhost:8000/apiV1/patients/");
+
+            const patients = await res.json();
+
+            commit("SET_PATIENTS", patients);
         },
-        body: JSON.stringify(array),
-      });
-      const user = await res.json();
 
-      console.log(user);
+        ADD_PATIENT: async function({ commit }, array) {
+            const res = await fetch("http://localhost:8000/apiV1/patients/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
 
-      M.toast({ html: "REGISTERED", classes: "rounded" });
+                    person_id: array.cc,
 
-      commit("SET_PATIENTS", user);
-    },
+                    name: array.name,
 
-    EDIT_PATIENT: async function ({ commit }, object) {
-      fetch("http://localhost:3000/users/" + object.id, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
+                    second_name: array.sname,
+
+                    lastname: array.lname,
+
+                    second_lastname: array.slname,
+
+                    age: array.bdate,
+
+                    username: array.uname,
+
+                    email: array.email,
+
+                    password: array.password,
+                }),
+            });
+            const user = await res.json();
+
+            console.log(user);
+
+            M.toast({ html: "REGISTERED", classes: "rounded" });
+
+            commit("SET_PATIENTS", user);
         },
-        body: JSON.stringify({
-          id: object.id,
-          username: object.username,
-          email: object.email,
-          password: object.password,
-        }),
-      });
 
-      const res = await fetch("http://localhost:3000/users");
+        EDIT_PATIENT: async function({ commit }, object) {
+            fetch("http://localhost:3000/users/" + object.id, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: object.id,
+                    username: object.username,
+                    email: object.email,
+                    password: object.password,
+                }),
+            });
 
-      const cart = await res.json();
+            const res = await fetch("http://localhost:3000/users");
 
-      commit("SET_USERS", cart);
+            const cart = await res.json();
 
-      this.$router.push("/admin");
-    },
+            commit("SET_USERS", cart);
 
-
-    GET_DOCTORS: async function ({ commit }) {
-      const res = await fetch("http://localhost:8000/apiV1/patients/");
-
-      const patients = await res.json();
-
-      commit("SET_PATIENTS", patients);
-    },
-
-    ADD_DOCTOR: async function ({ commit }, array) {
-      const res = await fetch("http://localhost:8000/apiV1/patients/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+            this.$router.push("/admin");
         },
-        body: JSON.stringify(array),
-      });
-      const user = await res.json();
 
-      console.log(user);
 
-      M.toast({ html: "REGISTERED", classes: "rounded" });
+        GET_DOCTORS: async function({ commit }) {
+            const res = await fetch("http://localhost:8000/apiV1/patients/");
 
-      commit("SET_PATIENTS", user);
-    },
+            const patients = await res.json();
 
-    EDIT_DOCTOR: async function ({ commit }, object) {
-      fetch("http://localhost:3000/users/" + object.id, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
+            commit("SET_PATIENTS", patients);
         },
-        body: JSON.stringify({
-          id: object.id,
-          username: object.username,
-          email: object.email,
-          password: object.password,
-        }),
-      });
 
-      const res = await fetch("http://localhost:3000/users");
+        ADD_DOCTOR: async function({ commit }, array) {
+            const res = await fetch("http://localhost:8000/apiV1/patients/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(array),
+            });
+            const user = await res.json();
 
-      const cart = await res.json();
+            console.log(user);
 
-      commit("SET_USERS", cart);
+            M.toast({ html: "REGISTERED", classes: "rounded" });
 
-      this.$router.push("/admin");
+            commit("SET_PATIENTS", user);
+        },
+
+        EDIT_DOCTOR: async function({ commit }, object) {
+            fetch("http://localhost:3000/users/" + object.id, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: object.id,
+                    username: object.username,
+                    email: object.email,
+                    password: object.password,
+                }),
+            });
+
+            const res = await fetch("http://localhost:3000/users");
+
+            const cart = await res.json();
+
+            commit("SET_USERS", cart);
+
+            this.$router.push("/admin");
+        },
+
     },
-    
-  },
 
-  mutations: {
-    SET_PATIENTS: function (state, patients) {
-      state.patients = patients;
+    mutations: {
+        SET_PATIENTS: function(state, patients) {
+            state.patients = patients;
+        },
+        SET_DOCTORS: function(state, doctors) {
+            state.doctors = doctors;
+        },
     },
-    SET_DOCTORS: function (state, doctors) {
-      state.doctors = doctors;
-    },
-  },
-  
-  
+
+
 })
 

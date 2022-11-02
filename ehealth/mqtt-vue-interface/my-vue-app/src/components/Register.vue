@@ -1,8 +1,7 @@
 <script>
 import Ibar from "/src/components/Ibar.vue";
 import Footer from "/src/components/Footer.vue";
-
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import { useStore } from "vuex";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength, maxLength, sameAs, numeric, alpha, alphaNum } from "@vuelidate/validators";
@@ -19,8 +18,13 @@ export default {
     };
   },
   setup() {
+       
+    let modal = 'blank'; 
+    
     const store = useStore();
+    
     let vector = computed(() => store.getters.patients);
+    
     const state = reactive({
       cc: "",
       name: "",
@@ -28,6 +32,9 @@ export default {
       lname: "",
       slname: "",
       bdate: "",
+      uname: '',
+      email: '',
+      password: '',
     });
 
     const rules = computed(() => {
@@ -37,47 +44,111 @@ export default {
         sname: { required, minLength: minLength(1), maxLength: maxLength(15), alpha },
         lname: { required, minLength: minLength(1), maxLength: maxLength(15), alpha },
         slname: { required, minLength: minLength(1), maxLength: maxLength(15), alpha },
-        bdate: { required, minLength: minLength(1), maxLength: maxLength(15), alphaNum },
+        bdate: { required, minLength: minLength(1), maxLength: maxLength(15) },
       };
     });
 
     const v$ = useVuelidate(rules, state);
 
     return { state, v$, vector };
+    
   },
   methods: {
     ...mapActions({
+      
       get: "GET_PATIENTS",
+      
     }),
+    isRegistered(){ 
+      
+      let registered = false;
+      
+      let vector2 = this.vector.persons;
+      
+      vector2.forEach((el,i) => {
+        
+        console.log(el.person_id);
+        console.log(this.state.cc);
+        
+        if (String(el.person_id) == this.state.cc){
+          
+          registered = true;   
+          M.toast({html: 'Ya registrado', classes: 'indigo'});
+          
+        } else {
+          
+          registered = false;
+          M.toast({html: 'Para registrar'});
+          
+        } 
+      });
+      
+      return registered;  
+      
+    },
     send() {
-      console.log(this.state);
-
+      
+      this.isRegistered(); 
+      
       this.v$.$validate(); // checks all inputs
-      if (!this.v$.$error) {
-        // if ANY fail validation
-        alert("Form successfully submitted.");
+      
+      if (!this.v$.$error && !this.isRegistered()) {
+        
+        let name = this.state.name;
+        
+         let username = name.substring(0, 3) + this.state.lname.substring(0, 3);
+         
+         this.state.uname = username;
+         
+         this.state.email = this.state.name.substring(0, 3) + this.state.lname.substring(0, 3) + '@gmail.com';
+         this.state.password = this.state.name.substring(0, 3) + this.state.cc.substring(0, 3);
+         
+         console.log(this.state.uname, this.state.email, this.state.password);
+         
+         // STORE MUTATION
+         
+         this.$store.dispatch("ADD_PATIENT", this.state);
+         
+         // CHANGING BUTTON CLASS
+         
+         this.modal = 'modal-trigger';
+         
+         // CLEANING FIELDS
+         
+         this.state.cc = '';
+         
+         this.state.name = '';
+         
+         this.state.sname = '';
+         
+         this.state.lname = '';
+         
+         this.state.slname = '';
+         
+         this.state.bdate = '';
+                
       } else {
-        alert("Form failed validation");
+        
+         M.toast({html: 'Rellene el formulario correctamente', classes: 'red'});
+         
       }
     },
   },
 
   computed: {
     ...mapGetters({
+      
       vector: "patients",
+      
     }),
   },
   mounted() {
+    
     M.AutoInit();
+    
     this.get();
-  },
-
-  validations() {
-    return {
-      email: { required },
-      password: { required },
-    };
-  },
+    
+  }, 
 };
 </script>
 
@@ -88,6 +159,26 @@ export default {
   <div class="container">
     <div class="container align-items center">
       
+        <!-- Modal Trigger -->
+ 
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Datos de Inicio de Sesion</h4>
+     
+      <p>Porfavor anote los siguientes datos</p>
+      
+      <div class='container align-items center'>
+      <p>CEDULA: {{ state.cc }} </p>
+      <p>CONTRASENIA: {{ state.password }}</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Aceptar</a>
+    </div>
+  </div>
+                
       <div id="test-swipe-1" class="col s12 white row">
         <div>
           <br />
@@ -185,8 +276,9 @@ export default {
 
                     <div class="center">
                       <button
-                        onclick="register_user()"
                         class="btn purple darken-4"
+                        :class='modal'
+                        href="#modal1"
                         name="doctor"
                         type="submit"
                         @click="send"
@@ -200,9 +292,7 @@ export default {
             </div>
           </div>
         </div>
-      </div>
-
-   
+      </div>   
     </div>
   </div>
 

@@ -1,14 +1,23 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import Ibar from "/src/components/Ibar.vue";
+import Footer from "/src/components/Footer.vue";
+import Ptable from "/src/components/Ptable.vue";
+import { useRouter, useRoute } from 'vue-router'
 
-//defineProps({
-//msg: String
-//})
-
-// <h1>{{ msg }}</h1>
-// Create a client instance
-
+// VARS
+const router = useRouter()
+const route = useRoute()
+const id = route.params.id;
 const client = new Paho.MQTT.Client("172.19.0.1", 9001, "futon");
+
+// SENSORS
+let jhrate = ref(0);
+let jrrate = ref(0);
+let joxigen = ref(0);
+let jtemp = ref(0);
+//let temp = ref(0);
+//let temp = ref(0);
 
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
@@ -19,14 +28,7 @@ client.connect({ onSuccess: onConnect });
 
 // called when the client connects
 function onConnect() {
-  //const data = {
-  //temperature: "30",
-  //oxigen: "95",
-  //hearth_rate: "150",
-  //};
-
-  //const info = JSON.stringify(data);
-
+  
   // Once a connection has been made, make a subscription and send a message.
   console.log("Connected");
   client.subscribe("ehealth");
@@ -49,13 +51,6 @@ function onConnectionLost(responseObject) {
   }
 }
 
-let jhrate = ref(0);
-let jrrate = ref(0);
-let joxigen = ref(0);
-let jtemp = ref(0);
-//let temp = ref(0);
-//let temp = ref(0);
-
 // called when a message arrives
 function onMessageArrived(message) {
   let payload = message.payloadString;
@@ -68,53 +63,69 @@ function onMessageArrived(message) {
   joxigen.value = oxigen;
   jtemp.value = temp;
 
-  //console.log("Message", hrate, rrate, oxigen, tempp);
+};
 
-  console.log(hrate, rrate, oxigen, temp);
+onMounted(()=>{
+    M.AutoInit();
+  });
 
-  //return temperature;
-}
-
-//console.log(temp);
-
-// Menubar items
 </script>
 
 <template>
   
-  <div class="container">
-    
-
-    <div class="flex flex align-items-center justify-content-center ">
-      <Knob class="mr-3" v-model="jtemp" :min="0" :max="100" />
-      <Knob class="mr-3" v-model="jhrate" :min="0" :max="200" />
-      <Knob class="mr-3" v-model="jrrate" :min="0" :max="200" />
-      <Knob class="mr-3" v-model="joxigen" :min="0" :max="150" />
+   <div class="row container">
+    <div class="col s12">
+      
+      <ul class="tabs">
+        <li class="tab col s3"><a href="#test1" class='indigo white-text active'>Toma de datos</a></li>
+        <li class="tab col s3"><a href="#test2" class='indigo white-text'>tabla de datos</a></li>
+        <li class="tab col s3"><a href="#test3" class='indigo white-text'>grafico de datos</a></li>
+        <li class="tab col s3"><a href="#test4" class='indigo white-text'>Datos de paciente</a></li>
+      </ul>
     </div>
-
-    <div class="flex flex align-items-center justify-content-center">
-      <div
-        class="m-3 p-2 flex-initial flex align-items-center justify-content-center bg-blue-500 font-base text-white m-1 px-1 py-1 "
-      >
-        Temperatura
+    <div id="test1" class="col s12">
+    <div class="row align-items center">
+      <br>
+      <h5 class='indigo container white-text container'>TOMA DE DATOS</h5>
+      <br>
+      <br>
+      
+      <div class='col s3'>
+      <Knob class="" readonly v-model="jtemp" :min="0" :max="100 " />
+      <a class='white-text btn indigo pulse'>Temperatura</a>
       </div>
-      <div
-        class=" m-3 flex-initial flex align-items-center justify-content-center bg-teal-500 font-base text-white m-1 px-1 py-1 "
-      >
-        F.Cardiaca
-	</div>
-      <div
-        class="m-3 flex-initial flex align-items-center justify-content-center  bg-yellow-500 font-base text-white m-1 px-1 py-1 "
-      >
-       Respiracion
-       </div>
-      <div
-        class="m-3 flex-initial flex align-items-center justify-content-center bg-red-500 font-base text-white m-2 px-1 py-1"
-
-      >
-       Oxigeno
-       </div>
+      
+      <div class='col s3'>
+      <Knob class="" readonly v-model="jhrate" :min="0" :max="200" />
+      <a class='white-text btn indigo pulse'>Frecuencia Cardiaca</a>
+      </div>
+      
+      <div class='col s3'>
+      <Knob class="" readonly v-model="jrrate" :min="0" :max="200" />
+      <a class='white-text btn indigo pulse'>Fre. Respiratoria</a>
+      </div>
+      
+      <div class='col s3'>
+      <Knob class="" readonly v-model="joxigen" :min="0" :max="150" />
+      <a class='white-text btn indigo pulse'>Oxigeno</a>
+      </div>   
+      
+      <div class='col s12'>
+      <br>
+      <a class='btn indigo darken-4' >Guardado</a>
+      </div>
+         
     </div>
+    </div>
+    
+    <div id="test2" class="col s12">
+    <Ptable cc = 'id'/>
+    </div>
+    
+    <div id="test3" class="col s12">Test 3</div>
+    
+    <div id="test4" class="col s12">Test 4</div>
+    
   </div>
-
+  
 </template>

@@ -3,7 +3,6 @@
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import { ref, onMounted } from 'vue';
 import M from 'materialize-css';
-import Login from './components/Login.vue';
 
 onMounted(() => {
   M.AutoInit() // <div>

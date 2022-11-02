@@ -200,3 +200,161 @@ function validate() {
     </div>
   </div>
   
+  
+  
+  <div class="container">
+        <ul id="tabs-swipe-demo" class="tabs">
+          <li class="tab col s3 "><a class="active blue white-text" href="#test-swipe-1">Datos de Paciente</a></li>
+          <li class="tab col s3"><a class="purple white-text" href="#test-swipe-2">Registros de paciente</a></li>
+          <li class="tab col s3"><a class="cyan white-text" href="#test-swipe-3">Datos de Registros</a></li>
+          <li class="tab col s3"><a class="teal white-text" href="#test-swipe-4">Diagnosticos</a></li>
+        </ul>
+        <div id="test-swipe-1" class="col s12 blue">
+      
+          <h4 class="indigo center white-text">Datos de Paciente</h4>
+        <ul class="collection">
+      
+          <li class="collection-item avatar">
+            <i class="material-icons circle indigo">person</i>
+            <span class="title">Datos</span>
+            <p> <br>
+                CC:  <br>
+               Fecha de nacimiento: 
+            </p>
+            
+          </li>
+      
+        </ul>
+      </div>
+        </div>
+      
+        <div id="test-swipe-2" class="col s12 white">
+      
+          <h4 class="purple center white-text container">Registros de Paciente</h4>
+      
+      <div class="container striped">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#Registro</th>
+                    <th>Oxigeno</th>
+                    <th>Pulso</th>
+                    <th>Temperatura</th>
+                    <th>Respiracion</th>
+                    <th>Peso</th>
+                    <th>Altura</th>
+                </tr>
+            </thead>
+      
+            <tbody>
+                
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td> kg</td>
+                <td> cm</td>
+                <tr/>
+                
+            </tbody>
+        </table>
+      </div>
+      
+        </div>
+        <div id="test-swipe-3" class="col s12 white">
+          <h4 class="blue center white-text container">Datos de Registros</h4>
+      
+      <div class="container striped">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#Registro</th>
+                    <th>Año</th>
+                    <th>Mes</th>
+                    <th>Dia</th>
+                    <th>Hora</th>
+                </tr>
+            </thead>
+      
+      
+            <tbody>
+                
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+      
+                <tr/>
+                
+            </tbody>
+        </table>
+      </div>
+        </div>
+      
+      
+      <div id="test-swipe-4" class="col s12 white">
+      
+        <h4 class="teal center white-text container">Diagnosticos del Paciente</h4>
+      
+      <div class="container striped">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Numero Diagnostico</th>
+                    <th>Cedula Doctor</th>
+                    <th>Cedula Paciente</th>
+                    <th>Diagnostico</th>
+                </tr>
+            </thead>
+      
+      
+            <tbody>
+                
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+      
+                <tr/>
+               
+            </tbody>
+        </table>
+      </div>
+      
+      </div>
+      
+      
+      <div class="flex flex align-items-center justify-content-center ">
+      <Knob class="mr-3" v-model="jtemp" :min="0" :max="100" />
+      <Knob class="mr-3" v-model="jhrate" :min="0" :max="200" />
+      <Knob class="mr-3" v-model="jrrate" :min="0" :max="200" />
+      <Knob class="mr-3" v-model="joxigen" :min="0" :max="150" />
+    </div>
+    
+    <div class="flex flex align-items-center justify-content-center">
+      <div
+        class="m-3 p-2 flex-initial flex align-items-center justify-content-center bg-blue-500 font-base text-white m-1 px-1 py-1 "
+      >
+        Temperatura
+      </div>
+      <div
+        class=" m-3 flex-initial flex align-items-center justify-content-center bg-teal-500 font-base text-white m-1 px-1 py-1 "
+      >
+        F.Cardiaca
+	</div>
+      <div
+        class="m-3 flex-initial flex align-items-center justify-content-center  bg-yellow-500 font-base text-white m-1 px-1 py-1 "
+      >
+       Respiracion
+       </div>
+      <div
+        class="m-3 flex-initial flex align-items-center justify-content-center bg-red-500 font-base text-white m-2 px-1 py-1"
+
+      >
+       Oxigeno
+       </div>
+    </div>
+  
+  

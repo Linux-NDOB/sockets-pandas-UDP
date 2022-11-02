@@ -12,6 +12,8 @@ import User from "./components/User.vue";
 
 import Doctor from "./components/Doctor.vue";
 
+import Ptable from "./components/Ptable.vue";
+
 
 
 const routes = [
@@ -22,10 +24,20 @@ const routes = [
   { path: "/register", component: Register },
 
   { path: "/home", component: Home },
+  
+  { path: "/home:id", component: Home },
 
   { path: "/user", component: User },
+  
+  { path: "/user:id",
+    name: 'user',
+    component: User },
 
   { path: "/doctor", component: Doctor },
+  
+  { path: "/doctor:id", component: Doctor },
+  
+  { path: "/ptable", component: Ptable },
   
 ];
 
