@@ -6,23 +6,33 @@ export default createStore({
 
     state: {
         patients: [],
-        doctors: []
-
+        doctors: [],
+        vitals: [],
+        patient: [],
+        doctor: [],
     },
 
     getters: {
         patients: (state) => state.patients,
         doctors: (state) => state.doctors,
+        vitals: (state) => state.vitals,
+        patient: (state) => state.patient,
+        doctor: (state) => state.doctor,
+
     },
 
     actions: {
 
         GET_PATIENTS: async function({ commit }) {
             const res = await fetch("http://localhost:8000/apiV1/patients/");
-
             const patients = await res.json();
-
             commit("SET_PATIENTS", patients);
+        },
+
+        GET_PATIENT: async function({ commit }, id) {
+            const res = await fetch("http://localhost:8000/apiV1/patients/" + id);
+            const patient = await res.json();
+            commit("SET_PATIENT", patient);
         },
 
         ADD_PATIENT: async function({ commit }, array) {
@@ -56,13 +66,13 @@ export default createStore({
 
             console.log(user);
 
-            M.toast({ html: "REGISTERED", classes: "rounded" });
+            M.toast({ html: "REGISTRADO CORRECTAMENTE", classes: "rounded indigo" });
 
             commit("SET_PATIENTS", user);
         },
 
         EDIT_PATIENT: async function({ commit }, object) {
-            fetch("http://localhost:3000/users/" + object.id, {
+            fetch("http://localhost:3000/patients/" + object.id, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -86,32 +96,53 @@ export default createStore({
 
 
         GET_DOCTORS: async function({ commit }) {
-            const res = await fetch("http://localhost:8000/apiV1/patients/");
+            const res = await fetch("http://localhost:8000/apiV1/doctors/");
 
-            const patients = await res.json();
+            const doctors = await res.json();
 
-            commit("SET_PATIENTS", patients);
+            commit("SET_DOCTORS", doctors);
+            
+            console.log(doctors.persons);
         },
 
         ADD_DOCTOR: async function({ commit }, array) {
-            const res = await fetch("http://localhost:8000/apiV1/patients/", {
+            const res = await fetch("http://localhost:8000/apiV1/doctors/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(array),
+                body: JSON.stringify({
+
+                        person_id: array.cc,
+
+                        name: array.name,
+
+                        second_name: array.sname,
+
+                        lastname: array.lname,
+
+                        second_lastname: array.slname,
+
+                        age: array.bdate,
+
+                        title: array.title,
+
+                        username: array.uname,
+
+                        email: array.email,
+
+                        password: array.password
+                    }),
             });
             const user = await res.json();
 
-            console.log(user);
+            M.toast({ html: "REGISTRADO CON EXITO", classes: "rounded indigo" });
 
-            M.toast({ html: "REGISTERED", classes: "rounded" });
-
-            commit("SET_PATIENTS", user);
+            commit("SET_DOCTORS", user);
         },
 
         EDIT_DOCTOR: async function({ commit }, object) {
-            fetch("http://localhost:3000/users/" + object.id, {
+            fetch("http://localhost:3000//" + object.id, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -126,11 +157,11 @@ export default createStore({
 
             const res = await fetch("http://localhost:3000/users");
 
-            const cart = await res.json();
+            const doctors = await res.json();
 
-            commit("SET_USERS", cart);
+            commit("SET_DOCTORS", doctors);
 
-            this.$router.push("/admin");
+            
         },
 
     },
@@ -141,6 +172,12 @@ export default createStore({
         },
         SET_DOCTORS: function(state, doctors) {
             state.doctors = doctors;
+        },
+        SET_PATIENT: function(state, patient) {
+            state.patient = patient;
+        },
+        SET_DOCTOR: function(state, doctor) {
+            state.doctor = doctor;
         },
     },
 

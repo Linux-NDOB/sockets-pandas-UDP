@@ -774,10 +774,16 @@ class vital_view(View):
                 patient=patient_id).values())
 
             if len(vitals) > 0:
+                
+                newVec = []
+                
+                i = 0
+                
+                while i < len(vitals):            
+                    newVec.append(vitals[i])
+                    i += 1
 
-                vital = vitals[0]
-
-                data = {'vitals': vital}
+                data = {'vitals': newVec}
 
             else:
 
@@ -798,4 +804,26 @@ class vital_view(View):
                 data = {'message': 'not vitals registered'}
 
             return JsonResponse(data)
+            
+    def post(self, request):
+        #TipoCliente.objects.get(codigo = request.POST['tipo_cliente'])
+        jd = json.loads(request.body)
+
+        VitalSigns.objects.create(
+            patient= Patient.objects.get(patient_id=jd['patient']),
+            oxigen=jd['oxigen'],
+            heart_rate=jd['heart_rate'],
+            temperature=jd['temperature'],
+            resp_rate=jd['resp_rate'],
+            weight=jd['weight'],
+            height=jd['height'],
+            day_taken=jd['day_taken'],
+            year_taken=jd['year_taken'],
+            month_taken=jd['month_taken'],
+            hour_taken=jd['hour_taken'],      
+        )
+
+        data = {'vitals': jd}
+
+        return JsonResponse(data)
 

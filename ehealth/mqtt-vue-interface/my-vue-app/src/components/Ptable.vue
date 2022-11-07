@@ -7,7 +7,7 @@ export default {
   
   data() {
     return {
-      nothing: {}
+      vitals: {}
       
     };
   },
@@ -21,17 +21,15 @@ export default {
       
       const con = await ans.json();
       
-      this.nothing = con;     
+      this.vitals = con.vitals;     
       
-      console.log(con)
+      console.log(this.vitals)
     }
   },
 
   mounted() {
     M.AutoInit();
-    this.get();
-
-   
+    this.get();   
   },
 };
 </script>
@@ -42,24 +40,21 @@ export default {
             <h5 class='indigo white-text center'>REGISTROS DEL PACIENTE</h5>
             
             <DataTable :value="vitals" :scrollable="true" scrollHeight="400px" :loading="loading">
-                <Column field="name" header="Numero" style="min-width:200px"></Column>
-                <Column field="country.name" header="Temperatura" style="min-width:200px"></Column>
-                <Column field="representative.name" header="F.Cardiaca" style="min-width:200px"></Column>
-                <Column field="status" header="F.Respiratoria" style="min-width:200px"></Column>
+                <Column field="register_number" header="Numero de Registro" style="min-width:200px"></Column>
+                <Column field="temperature" header="Temperatura(C)" style="min-width:200px"></Column>
+                <Column field="heart_rate" header="F.Cardiaca(BPM)" style="min-width:200px"></Column>
+                <Column field="resp_rate" header="F.Respiratoria(RPM)" style="min-width:200px"></Column>
                 
-                <Column field="country.name" header="Oxigeno" style="min-width:200px"></Column>
-                <Column field="representative.name" header="Peso" style="min-width:200px"></Column>
-                <Column field="status" header="Altura" style="min-width:200px"></Column>
+                <Column field="oxigen" header="Oxigeno(%)" style="min-width:200px"></Column>
+                <Column field="weight" header="Peso(Kg)" style="min-width:200px"></Column>
+                <Column field="height" header="Altura(cm)" style="min-width:200px"></Column>
                 
-                <Column field="country.name" header="Anio" style="min-width:200px"></Column>
-                <Column field="representative.name" header="Mes" style="min-width:200px"></Column>
-                <Column field="status" header="Dia" style="min-width:200px"></Column>
-                <Column field="status" header="Hora" style="min-width:200px"></Column>
-                
-                
+                <Column field="year_taken" header="Anio" style="min-width:200px"></Column>
+                <Column field="month_taken" header="Mes" style="min-width:200px"></Column>
+                <Column field="day_taken" header="Dia" style="min-width:200px"></Column>
+                <Column field="hour_taken" header="Hora" style="min-width:200px"></Column>
+                       
             </DataTable>
         </div>
-  
-
   
 </template>

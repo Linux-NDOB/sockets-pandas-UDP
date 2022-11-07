@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import Ibar from "/src/components/Ibar.vue";
-import Footer from "/src/components/Footer.vue";
 import Ptable from "/src/components/Ptable.vue";
+import Uchart from "/src/components/Uchart.vue";
 import { useRouter, useRoute } from 'vue-router'
 
 // VARS
@@ -16,12 +15,25 @@ let jhrate = ref(0);
 let jrrate = ref(0);
 let joxigen = ref(0);
 let jtemp = ref(0);
-//let temp = ref(0);
-//let temp = ref(0);
+//let weight = ref(0);
+//let height = ref(0);
+let weight = 90;
+let height = 175;
+
+// DATE
+let day = new Date().getDate()          // Get the day as a number (1-31)
+//let day = new Date().getDay() + 1           // Get the weekday as a number (0-6)
+let year = new Date().getFullYear()      // Get the four digit year (yyyy)
+let hour = new Date().getHours()         // Get the hour (0-23)
+//new Date().getMilliseconds()  // Get the milliseconds (0-999)
+//new Date().getMinutes()       // Get the minutes (0-59)
+let month = new Date().getMonth()         // Get the month (0-11)
+//new Date().getSeconds()       // Get the seconds (0-59)
+//new Date().getTime()          // Get the time (milliseconds since January 1, 1970)
 
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
-client.onMessageArrived = onMessageArrived;
+client.onMessageArrived = onMessageArrived, send;
 
 // connect the client
 client.connect({ onSuccess: onConnect });
@@ -65,8 +77,64 @@ function onMessageArrived(message) {
 
 };
 
+async function send (){
+  
+  if (jhrate.value > 1 && jrrate.value > 1 && joxigen.value > 1 && jtemp.value > 1){
+    
+    const res = await fetch("http://localhost:8000/apiV1/vitals/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+
+                    patient: id,
+
+                    oxigen: joxigen.value,
+
+                    heart_rate: jhrate.value,
+
+                    temperature: jtemp.value,
+
+                    resp_rate: jrrate.value,
+
+                    weight: weight,
+
+                    height: height,
+
+                    day_taken: day,
+                    
+                    year_taken: year,
+                    
+                    month_taken: month,
+                    
+                    hour_taken: hour,
+                    
+                }),
+            });
+            const sded = await res.json();
+
+            console.log(sded);
+
+            M.toast({ html: "DATOS REGISTRADOS", classes: "rounded green" });
+     
+  } else {
+    
+            M.toast({ html: "DATOS INVALIDOS", classes: "rounded red" });
+        }
+};
+
+let timer;
+
+function startTimer() {
+  timer = setInterval(function() {
+    send();
+    }, 5000);
+    }
+
 onMounted(()=>{
     M.AutoInit();
+    //startTimer();
   });
 
 </script>
@@ -112,17 +180,20 @@ onMounted(()=>{
       
       <div class='col s12'>
       <br>
-      <a class='btn indigo darken-4' >Guardado</a>
+      <br>
+      <a class='btn green' >ACTUALIZANDO</a>
       </div>
          
     </div>
     </div>
     
     <div id="test2" class="col s12">
-    <Ptable cc = 'id'/>
+    <Ptable :cc=id />
     </div>
     
-    <div id="test3" class="col s12">Test 3</div>
+    <div id="test3" class="col s12">
+    <Uchart/>
+    </div>
     
     <div id="test4" class="col s12">Test 4</div>
     

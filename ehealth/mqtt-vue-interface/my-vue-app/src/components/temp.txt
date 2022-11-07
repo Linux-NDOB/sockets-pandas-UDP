@@ -1,0 +1,695 @@
+<script>
+import Ibar from "/src/components/Ibar.vue";
+import Footer from "/src/components/Footer.vue";
+import { reactive, computed, ref } from "vue";
+import { useStore } from "vuex";
+import useVuelidate from "@vuelidate/core";
+import { required, minLength, maxLength, sameAs, numeric, alpha, alphaNum } from "@vuelidate/validators";
+import { mapActions, mapGetters } from "vuex";
+
+export default {
+  components: {
+    Footer,
+    Ibar,
+  },
+  data() {
+    return {
+      v$: useVuelidate(),
+    };
+  },
+  setup() {
+       
+    let modal = 'blank'; 
+    
+    const store = useStore();
+    
+    let vector = computed(() => store.getters.patients);
+    
+    const state = reactive({
+      cc: "",
+      name: "",
+      sname: "",
+      lname: "",
+      slname: "",
+      bdate: "",
+      uname: '',
+      email: '',
+      password: '',
+    });
+
+    const rules = computed(() => {
+      return {
+        cc: { required, minLength: minLength(1), maxLength: maxLength(15), numeric },
+        name: { required, minLength: minLength(1), maxLength: maxLength(15), alpha },
+        sname: { required, minLength: minLength(1), maxLength: maxLength(15), alpha },
+        lname: { required, minLength: minLength(1), maxLength: maxLength(15), alpha },
+        slname: { required, minLength: minLength(1), maxLength: maxLength(15), alpha },
+        bdate: { required, minLength: minLength(1), maxLength: maxLength(15) },
+      };
+    });
+
+    const v$ = useVuelidate(rules, state);
+
+    return { state, v$, vector };
+    
+  },
+  methods: {
+    ...mapActions({
+      
+      get: "GET_PATIENTS",
+      
+    }),
+    isRegistered(){ 
+      
+      let registered = false;
+      
+      let vector2 = this.vector.persons;
+      
+      vector2.forEach((el,i) => {
+        
+        console.log(el.person_id);
+        console.log(this.state.cc);
+        
+        if (String(el.person_id) == this.state.cc){
+          
+          registered = true;   
+          M.toast({html: 'Ya registrado', classes: 'indigo'});
+          
+        } else {
+          
+          registered = false;
+          M.toast({html: 'Para registrar'});
+          
+        } 
+      });
+      
+      return registered;  
+      
+    },
+    send() {
+      
+      this.isRegistered(); 
+      
+      this.v$.$validate(); // checks all inputs
+      
+      if (!this.v$.$error && !this.isRegistered()) {
+        
+        let name = this.state.name;
+        
+         let username = name.substring(0, 3) + this.state.lname.substring(0, 3);
+         
+         this.state.uname = username;
+         
+         this.state.email = this.state.name.substring(0, 3) + this.state.lname.substring(0, 3) + '@gmail.com';
+         this.state.password = this.state.name.substring(0, 3) + this.state.cc.substring(0, 3);
+         
+         console.log(this.state.uname, this.state.email, this.state.password);
+         
+         // STORE MUTATION
+         
+         this.$store.dispatch("ADD_PATIENT", this.state);
+         
+         // CHANGING BUTTON CLASS
+         
+         this.modal = 'modal-trigger';
+         
+         // CLEANING FIELDS
+         
+         this.state.cc = '';
+         
+         this.state.name = '';
+         
+         this.state.sname = '';
+         
+         this.state.lname = '';
+         
+         this.state.slname = '';
+         
+         this.state.bdate = '';
+                
+      } else {
+        
+         M.toast({html: 'Rellene el formulario correctamente', classes: 'red'});
+         
+      }
+    },
+  },
+
+  computed: {
+    ...mapGetters({
+      
+      vector: "patients",
+      
+    }),
+  },
+  mounted() {
+    
+    M.AutoInit();
+    
+    this.get();
+    
+  }, 
+};
+</script>
+
+<template>
+  <Ibar />
+  <br />
+
+  <div class="container">
+    <div class="container align-items center">
+      
+        <!-- Modal Trigger -->
+ 
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Datos de Inicio de Sesion</h4>
+     
+      <p>Porfavor anote los siguientes datos</p>
+      
+      <div class='container align-items center'>
+      <p>CEDULA: {{ state.cc }} </p>
+      <p>CONTRASENIA: {{ state.password }}</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Aceptar</a>
+    </div>
+  </div>
+                
+      <div id="test-swipe-1" class="col s12 white row">
+        <div>
+          <br />
+
+          <div class="container">
+            <div class="col s12 container">
+              <div class="row">
+
+                <div class="col s12">
+                  <h4 class="white-text indigo ">
+                    Formulario de Registro
+                  </h4>
+                </div>
+
+                <div class="col s12">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input
+                        placeholder="Cedula del paciente"
+                        id="cedula"
+                        type="text"
+                        class="validate"
+                        v-model="state.cc"
+                      />
+                      <h6 class="red white-text" v-if="v$.cc.$error">
+                        {{ v$.cc.$errors[0].$message }}
+                      </h6>
+                    </div>
+
+                    <div class="input-field col s12">
+                      <input
+                        placeholder="Nombre"
+                        id="ru_name"
+                        type="text"
+                        class="validate"
+                        v-model="state.name"
+                      />
+                      <h6 class="red white-text" v-if="v$.name.$error">
+                        {{ v$.name.$errors[0].$message }}
+                      </h6>
+                    </div>
+
+                    <div class="input-field col s12">
+                      <input
+                        placeholder="Segundo nombre"
+                        id="ru_sname"
+                        type="text"
+                        class="validate"
+                        v-model="state.sname"
+                      />
+                      <h6 class="red white-text" v-if="v$.sname.$error">
+                        {{ v$.sname.$errors[0].$message }}
+                      </h6>
+                    </div>
+
+                    <div class="input-field col s12">
+                      <input
+                        placeholder="Apellido"
+                        id="ru_lastname"
+                        type="text"
+                        class="validate"
+                        v-model="state.lname"
+                      />
+                      <h6 class="red white-text" v-if="v$.lname.$error">
+                        {{ v$.lname.$errors[0].$message }}
+                      </h6>
+                    </div>
+
+                    <div class="input-field col s12">
+                      <input
+                        placeholder="Segundo apellido"
+                        id="ru_slastname"
+                        type="text"
+                        class="validate"
+                        v-model="state.slname"
+                      />
+                      <h6 class="red white-text" v-if="v$.slname.$error">
+                        {{ v$.slname.$errors[0].$message }}
+                      </h6>
+                    </div>
+
+                    <div class="input-field col s12">
+                      <input
+                        placeholder="Fecha de nacimiento"
+                        id="ru_bdate"
+                        type="date"
+                        class="validate"
+                        v-model="state.bdate"
+                      />
+                      <label for="first_name">Fecha de nacimiento</label>
+                      <h6 class="red white-text" v-if="v$.bdate.$error">
+                        {{ v$.bdate.$errors[0].$message }}
+                      </h6>
+                    </div>
+
+                    <div class="center">
+                      <button
+                        class="btn purple darken-4"
+                        :class='modal'
+                        href="#modal1"
+                        name="doctor"
+                        type="submit"
+                        @click="send"
+                      >
+                        Registrarse
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>   
+    </div>
+  </div>
+
+  <Footer />
+</template>
+
+
+
+
+<template>
+    <div class="form-demo">
+        <Dialog v-model:visible="showMessage" :breakpoints="{ '960px': '80vw' }" :style="{ width: '30vw' }" position="top">
+            <div class="flex align-items-center flex-column pt-6 px-3">
+                <i class="pi pi-check-circle" :style="{fontSize: '5rem', color: 'var(--green-500)' }"></i>
+                <h5>Registration Successful!</h5>
+                <p :style="{lineHeight: 1.5, textIndent: '1rem'}">
+                    Your account is registered under name <b>{{state.name}}</b> ; it'll be valid next 30 days without activation. Please check <b>{{state.email}}</b> for activation instructions.
+                </p>
+            </div>
+            <template #footer>
+                <div class="flex justify-content-center">
+                    <Button label="OK" @click="toggleDialog" class="p-button-text" />
+                </div>
+            </template>
+        </Dialog>
+
+        <div class="flex justify-content-center">
+            <div class="card white">
+                <h5 class="text-center indigo white-text container">REGISTRO DOCTORES</h5>
+                <form @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid">
+                    <div class="field">
+                        <div class="p-float-label">
+                            <InputText id="name" v-model="v$.name.$model" :class="{'p-invalid':v$.name.$invalid && submitted}" />
+                            <label for="name" :class="{'p-error':v$.name.$invalid && submitted}">Name*</label>
+                        </div>
+                        <small v-if="(v$.name.$invalid && submitted) || v$.name.$pending.$response" class="p-error">{{v$.name.required.$message.replace('Value', 'Name')}}</small>
+                    </div>
+                    
+                    
+                    <div class="field">
+                        <div class="p-float-label">
+                            <InputText id="name" v-model="v$.name.$model" :class="{'p-invalid':v$.name.$invalid && submitted}" />
+                            <label for="name" :class="{'p-error':v$.name.$invalid && submitted}">Name*</label>
+                        </div>
+                        <small v-if="(v$.name.$invalid && submitted) || v$.name.$pending.$response" class="p-error">{{v$.name.required.$message.replace('Value', 'Name')}}</small>
+                    </div>
+                    
+                    <div class="field">
+                        <div class="p-float-label">
+                            <InputText id="name" v-model="v$.name.$model" :class="{'p-invalid':v$.name.$invalid && submitted}" />
+                            <label for="name" :class="{'p-error':v$.name.$invalid && submitted}">Name*</label>
+                        </div>
+                        <small v-if="(v$.name.$invalid && submitted) || v$.name.$pending.$response" class="p-error">{{v$.name.required.$message.replace('Value', 'Name')}}</small>
+                    </div>
+                    
+                    
+                    <div class="field">
+                        <div class="p-float-label p-input-icon-right">
+                            <i class="pi pi-envelope" />
+                            <InputText id="email" v-model="v$.email.$model" :class="{'p-invalid':v$.email.$invalid && submitted}" aria-describedby="email-error"/>
+                            <label for="email" :class="{'p-error':v$.email.$invalid && submitted}">Email*</label>
+                        </div>
+                        <span v-if="v$.email.$error && submitted">
+                            <span id="email-error" v-for="(error, index) of v$.email.$errors" :key="index">
+                            <small class="p-error">{{error.$message}}</small>
+                            </span>
+                        </span>
+                        <small v-else-if="(v$.email.$invalid && submitted) || v$.email.$pending.$response" class="p-error">{{v$.email.required.$message.replace('Value', 'Email')}}</small>
+                    </div>
+                    <div class="field">
+                        <div class="p-float-label">
+                            <Password id="password" v-model="v$.password.$model" :class="{'p-invalid':v$.password.$invalid && submitted}" toggleMask>
+                                <template #header>
+                                    <h6>Pick a password</h6>
+                                </template>
+                                <template #footer="sp">
+                                    {{sp.level}}
+                                    <Divider />
+                                    <p class="mt-2">Suggestions</p>
+                                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                        <li>At least one lowercase</li>
+                                        <li>At least one uppercase</li>
+                                        <li>At least one numeric</li>
+                                        <li>Minimum 8 characters</li>
+                                    </ul>
+                                </template>
+                            </Password>
+                            <label for="password" :class="{'p-error':v$.password.$invalid && submitted}">Password*</label>
+                        </div>
+                        <small v-if="(v$.password.$invalid && submitted) || v$.password.$pending.$response" class="p-error">{{v$.password.required.$message.replace('Value', 'Password')}}</small>
+                    </div>
+                    
+                    <div class="field">
+                        <div class="p-float-label">
+                            <Calendar id="date" v-model="date" :showIcon="true" />
+                            <label for="date">Birthday</label>
+                        </div>
+                    </div>
+      
+                    <div class="field-checkbox">
+                        <Checkbox id="accept" name="accept" value="Accept" v-model="v$.accept.$model" :class="{'p-invalid':v$.accept.$invalid && submitted}" />
+                        <label for="accept" :class="{'p-error': v$.accept.$invalid && submitted}">I agree to the terms and conditions*</label>
+                    </div>
+                    <Button type="submit" label="Submit" class="mt-2" />
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import { reactive, ref, onMounted } from 'vue';
+import { email, required } from "@vuelidate/validators";
+import { useVuelidate } from "@vuelidate/core";
+
+
+export default {
+    setup() {
+        onMounted(() => {
+            
+        })
+
+        const state = reactive({
+            name: '',
+            email: '',
+            password: '',
+            accept: null
+        });
+
+        const rules = {
+            name: { required },
+            email: { required, email },
+            password: { required },
+            accept: { required }
+        };
+
+        
+        const submitted = ref(false);
+      
+        const showMessage = ref(false);
+        const date = ref();
+        
+
+        const v$ = useVuelidate(rules, state);
+
+        const handleSubmit = (isFormValid) => {
+            submitted.value = true;
+
+            if (!isFormValid) {
+                return;
+            }
+
+            toggleDialog();
+        }
+        const toggleDialog = () => {
+            showMessage.value = !showMessage.value;
+        
+            if(!showMessage.value) {
+                resetForm();
+            }
+        }
+        const resetForm = () => {
+            state.name = '';
+            state.email = '';
+            state.password = '';
+            state.date = null;
+            state.country = null;
+            state.accept = null;
+            submitted.value = false;
+        }
+
+        return { state, v$, handleSubmit, toggleDialog, submitted, showMessage, date }
+    }
+}
+</script>
+
+<style lang="scss" scoped>
+.form-demo {
+    .card {
+        min-width: 450px;
+
+        form {
+            margin-top: 2rem;
+        }
+
+        .field {
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    @media screen and (max-width: 960px) {
+        .card {
+            width: 80%;
+        }
+    }
+}
+
+</style>
+
+
+
+
+
+
+
+
+<script>
+import Ibar from "/src/components/Ibar.vue";
+import Footer from "/src/components/Footer.vue";
+import { reactive, computed } from "vue";
+import { useStore } from "vuex";
+import useVuelidate from "@vuelidate/core";
+import {
+  required,
+  minLength,
+  maxLength,
+  sameAs,
+  numeric,
+} from "@vuelidate/validators";
+import { mapActions, mapGetters } from "vuex";
+
+export default {
+  components: {
+    Footer,
+    Ibar,
+  },
+  data() {
+    return {
+      v$: useVuelidate(),
+    };
+  },
+  setup() {
+    const store = useStore();
+
+    let vector = computed(() => store.getters.patients);
+
+    const state = reactive({
+      cc: "",
+      password: "",
+    });
+
+    const rules = computed(() => {
+      return {
+        cc: {
+          required,
+          minLength: minLength(1),
+          maxLength: maxLength(15),
+          numeric,
+        },
+        password: {
+          required,
+          minLength: minLength(1),
+          maxLength: maxLength(15),
+        },
+      };
+    });
+
+    const v$ = useVuelidate(rules, state);
+
+    return { state, v$, vector };
+  },
+
+  methods: {
+    ...mapActions({
+      get: "GET_PATIENTS",
+    }),
+
+    exists: async function () {
+      const res = await fetch(
+        "http://localhost:8000/apiV1/user_accounts/" + this.state.cc
+      );
+      const us = await res.json();
+
+      let ex = false;
+
+      us.hasOwnProperty("msg") ? (ex = false) : (ex = true);
+
+      console.log("Exists result:" + ex);
+
+      return ex;
+    },
+
+    valPass: async function () {
+      this.exists();
+
+      console.log("valPass Existe: " + (await this.exists()));
+
+      let ex = await this.exists();
+
+      let isValid = false;
+
+      if (ex == true) {
+        const res = await fetch(
+          "http://localhost:8000/apiV1/user_accounts/" + this.state.cc
+        );
+
+        const us = await res.json();
+
+        this.state.password == us.user_account.user_password
+          ? (isValid = true)
+          : (isValid = false);
+
+        console.log("Valido: " + isValid);
+      } else if (ex == false) {
+        isValid = false;
+        console.log("Se supone invalid");
+      }
+
+      console.log("valPass final:" + isValid);
+      return isValid;
+    },
+    send: async function () {
+      let valid = await this.valPass();
+
+      console.log("valid: " + valid);
+
+      this.v$.$validate();
+
+      if (!this.v$.$error && valid == true) {
+        let id = this.state.cc;
+
+        M.toast({ html: "LOGON", classes: "rounded" });
+
+        this.$router.push({ name: "user", params: { id } });
+      } else if (valid == false || this.v$.error) {
+        M.toast({ html: "DATOS INCORRECTOS", classes: "rounded red" });
+      }
+    },
+  },
+
+  computed: {
+    ...mapGetters({
+      vector: "patients",
+    }),
+  },
+
+  mounted() {
+    M.AutoInit();
+
+    this.get();
+  },
+};
+</script>
+
+<template>
+  <Ibar />
+
+  <br />
+  <div class="divider"></div>
+  <br />
+
+  <div class="container">
+    <div class="row container align-items center">
+      <div class="col s12">
+        <h4 class="white-text indigo container">
+          Formulario de Inicio de Sesion
+        </h4>
+      </div>
+      <div class="divider"></div>
+
+      <div class="col s12 m4 l2"><p></p></div>
+      <div class="col s12 m4 l8">
+        <input id="last_name" type="text" v-model="state.cc" />
+        <label for="last_name">Cedula</label>
+        <h6 class="red white-text" v-if="v$.cc.$error">
+          {{ v$.cc.$errors[0].$message }}
+        </h6>
+      </div>
+      <div class="col s12 m4 l2"><p></p></div>
+
+      <div class="col s12"></div>
+      <br />
+
+      <div class="col s12 m4 l2"><p></p></div>
+      <div class="col s12 m4 l8">
+        <input type="password" v-model="state.password" />
+        <label for="password">Contrasenia</label>
+        <h6 class="red white-text" v-if="v$.password.$error">
+          {{ v$.password.$errors[0].$message }}
+        </h6>
+      </div>
+      <div class="col s12 m4 l2"><p></p></div>
+    </div>
+
+    <div class="col s12 align-items center">
+      <a class="red-text">Pulse aqui si ha olvidado su contrasenia</a>
+    </div>
+
+    <div class="col s12 align-items center">
+      <a class="waves-effect waves-light btn indigo white-text" @click="send"
+        >Entrar</a
+      >
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <br />
+
+  <Footer />
+</template>
