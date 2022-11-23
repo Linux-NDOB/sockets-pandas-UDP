@@ -693,3 +693,53 @@ export default {
 
   <Footer />
 </template>
+
+state = reactive({
+      cc: "",
+      name: "",
+      sname: "",
+      lname: "",
+      slname: "",
+      bdate: "",
+      uname: "",
+      email: "",
+      password: "",
+
+    })
+    
+    const rules = computed(() => {
+      return {
+        cc: {
+          required,
+          minLength: minLength(1),
+          maxLength: maxLength(15),
+          numeric,
+        },
+        name: {
+          required,
+          minLength: minLength(1),
+          maxLength: maxLength(15),
+          alpha,
+        },
+        sname: {
+          required,
+          minLength: minLength(1),
+          maxLength: maxLength(15),
+          alpha,
+        },
+        lname: {
+          required,
+          minLength: minLength(1),
+          maxLength: maxLength(15),
+          alpha,
+        },
+        slname: {
+          required,
+          minLength: minLength(1),
+          maxLength: maxLength(15),
+          alpha,
+        },
+        bdate: { required, minLength: minLength(1), maxLength: maxLength(15) },
+
+      };
+    });

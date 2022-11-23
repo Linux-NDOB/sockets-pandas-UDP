@@ -63,5 +63,8 @@ onMounted(()=>{
 </script>
 
 <template>
+
+  
+
   <Chart type="line" :data="basicData" />
 </template>

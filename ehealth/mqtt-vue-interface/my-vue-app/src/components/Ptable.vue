@@ -39,7 +39,7 @@ export default {
 <div class="card">
             <h5 class='indigo white-text center'>REGISTROS DEL PACIENTE</h5>
             
-            <DataTable :value="vitals" :scrollable="true" scrollHeight="400px" :loading="loading">
+            <DataTable :value="vitals" :scrollable="true" scrollHeight="400px" :loading="false">
                 <Column field="register_number" header="Numero de Registro" style="min-width:200px"></Column>
                 <Column field="temperature" header="Temperatura(C)" style="min-width:200px"></Column>
                 <Column field="heart_rate" header="F.Cardiaca(BPM)" style="min-width:200px"></Column>

@@ -27,6 +27,8 @@ import Calendar from 'primevue/calendar';
 import Checkbox from 'primevue/checkbox';
 import Password from 'primevue/password';
 
+import {FilterService} from 'primevue/api';
+
 createApp(App).use(router).use(store).use(PrimeVue)
   .component("Knob", Knob)
   .component("Menubar", Menubar)

@@ -15,9 +15,7 @@ import Footer from "/src/components/Bars/Footer.vue";
         <div class="row container">
           <h2 class="header">Healthy Fork</h2>
           <p class="grey-text text-darken-3 lighten-3">
-            Parallax is an effect where the background content or image in this
-            case, is moved at a different speed than the foreground content while
-            scrolling.
+            Helathy fork es un proyecto que busca conectar a los pacientes con los centros de salud, optimizar los tiempos de atención brindados y pertmitir a los pacientes poder tomar y revisar sus signos vitales donde deseen.
           </p>
         </div>
       </div>  

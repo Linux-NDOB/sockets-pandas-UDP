@@ -239,13 +239,14 @@ export default {
     <div class="container align-items center">
       <div class="container">
         <div class="col s12 container">
-          <div class="row">
+          <div class="row card">
             <div class="col s12">
-              <h5 class="white-text indigo">REGISTRO DOCTORES</h5>
+              <h5 class="indigo-text ">REGISTRO DE DOCTORES</h5>
             </div>
             <div class="col s12">
               <div class="row">
                 <div class="input-field col s12">
+                  <i class="material-icons prefix">list_alt</i>
                   <input
                     placeholder="Titulos"
                     id="cedula"
@@ -259,8 +260,9 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
+                  <i class="material-icons  prefix">person</i>
                   <input
-                    placeholder="Cedula del paciente"
+                    placeholder="Cedula del doctor"
                     id="cedula"
                     type="text"
                     class="validate"
@@ -272,6 +274,8 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
+                  <i class="material-icons prefix">face</i>
+
                   <input
                     placeholder="Nombre"
                     id="ru_name"
@@ -285,6 +289,8 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
+                  <i class="material-icons prefix">person</i>
+
                   <input
                     placeholder="Segundo nombre"
                     id="ru_sname"
@@ -298,6 +304,8 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
+                  <i class="material-icons prefix">group</i>
+
                   <input
                     placeholder="Apellido"
                     id="ru_lastname"
@@ -311,6 +319,8 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
+                  <i class="material-icons prefix">person</i>
+
                   <input
                     placeholder="Segundo apellido"
                     id="ru_slastname"
@@ -324,6 +334,8 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
+                  <i class="material-icons prefix">date_range</i>
+
                   <input
                     placeholder="Fecha de nacimiento"
                     id="ru_bdate"

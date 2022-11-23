@@ -1,5 +1,4 @@
 "use strict";
-import router from "./router";
 import { createStore } from 'vuex';
 
 export default createStore({
@@ -71,27 +70,32 @@ export default createStore({
             commit("SET_PATIENTS", user);
         },
 
-        EDIT_PATIENT: async function({ commit }, object) {
-            fetch("http://localhost:3000/patients/" + object.id, {
-                method: "PATCH",
+        EDIT_PATIENT: async function({commit}, object) {
+            console.log('hi',object)
+            fetch("http://localhost:8000/apiV1/persons/" + object.person_id, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    id: object.id,
-                    username: object.username,
-                    email: object.email,
-                    password: object.password,
-                }),
+
+                person_id: object.person_id,
+
+                name: object.name,
+
+                second_name: object.second_name,
+
+                lastname: object.lastname,
+
+                second_lastname: object.second_lastname,
+
+                age: object.age,
+
+            }),
             });
+            
+            M.toast({ html: "DATOS ACTUALIZADOS CORRECTAMENTE", classes: "rounded green" });
 
-            const res = await fetch("http://localhost:3000/users");
-
-            const cart = await res.json();
-
-            commit("SET_USERS", cart);
-
-            this.$router.push("/admin");
         },
 
 
@@ -103,6 +107,12 @@ export default createStore({
             commit("SET_DOCTORS", doctors);
             
             console.log(doctors.persons);
+        },
+
+        GET_DOCTOR: async function({ commit }, id) {
+            const res = await fetch("http://localhost:8000/apiV1/persons/" + id);
+            const doc = await res.json();
+            commit("SET_DOCTOR", doc);
         },
 
         ADD_DOCTOR: async function({ commit }, array) {
@@ -141,28 +151,46 @@ export default createStore({
             commit("SET_DOCTORS", user);
         },
 
-        EDIT_DOCTOR: async function({ commit }, object) {
-            fetch("http://localhost:3000//" + object.id, {
+        EDIT_DOCTOR: async function({ commit }, array) {
+            fetch("http://localhost:8000/persons/" + array.id, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    id: object.id,
-                    username: object.username,
-                    email: object.email,
-                    password: object.password,
+
+                    person_id: array.cc,
+
+                    name: array.name,
+
+                    second_name: array.sname,
+
+                    lastname: array.lname,
+
+                    second_lastname: array.slname,
+
+                    age: array.bdate,
+
+                    title: array.title,
+
+                    username: array.uname,
+
+                    email: array.email,
+
+                    password: array.password
                 }),
             });
 
             const res = await fetch("http://localhost:3000/users");
 
-            const doctors = await res.json();
+            const doctor = await res.json();
 
-            commit("SET_DOCTORS", doctors);
+            commit("SET_DOCTOR", doctor);
 
             
         },
+
+        
 
     },
 
@@ -183,4 +211,6 @@ export default createStore({
 
 
 })
+
+
 

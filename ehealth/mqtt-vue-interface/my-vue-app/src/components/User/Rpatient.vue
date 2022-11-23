@@ -29,7 +29,7 @@ export default {
     let mostrar = false;
 
     const store = useStore();
-
+    
     let vector = computed(() => store.getters.doctors);
 
     const state = reactive({
@@ -232,15 +232,16 @@ export default {
     <div class="container align-items center">
       <div class="container">
         <div class="col s12 container">
-          <div class="row">
+          <div class="card row">
             <div class="col s12">
-              <h5 class="white-text indigo">REGISTRO PACIENTES</h5>
+              <h5 class="indigo-text ">REGISTRO DE PACIENTES</h5>
             </div>
             <div class="col s12">
               <div class="row">
                 
 
                 <div class="input-field col s12">
+                  <i class="material-icons prefix">verified_user</i>
                   <input
                     placeholder="Cedula del paciente"
                     id="cedula"
@@ -254,6 +255,7 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
+                  <i class="material-icons prefix">face</i>
                   <input
                     placeholder="Nombre"
                     id="ru_name"
@@ -267,6 +269,7 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
+                  <i class="material-icons prefix">account_circle</i>
                   <input
                     placeholder="Segundo nombre"
                     id="ru_sname"
@@ -280,6 +283,7 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
+                  <i class="material-icons prefix">group</i>
                   <input
                     placeholder="Apellido"
                     id="ru_lastname"
@@ -293,6 +297,7 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
+                  <i class="material-icons prefix">account_circle</i>
                   <input
                     placeholder="Segundo apellido"
                     id="ru_slastname"
@@ -306,6 +311,7 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
+                  <i class="material-icons prefix">date_range</i>
                   <input
                     placeholder="Fecha de nacimiento"
                     id="ru_bdate"

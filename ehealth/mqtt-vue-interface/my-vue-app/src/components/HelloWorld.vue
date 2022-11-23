@@ -2,6 +2,7 @@
 import { ref, onMounted } from "vue";
 import Ptable from "/src/components/Ptable.vue";
 import Uchart from "/src/components/Uchart.vue";
+import Update from '/src/components/User/Update.vue'
 import { useRouter, useRoute } from "vue-router";
 import Chart from "primevue/chart";
 
@@ -39,9 +40,9 @@ const primeChart = ref();
 let limit = 0;
 
 function getRandomInt(min, max) {
-  min = Math.ceil(min)
-  max = Math.floor(max)
-  return Math.floor(Math.random() * (max - min) + min)
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
 }
 
 const addData = () => {
@@ -192,51 +193,121 @@ onMounted(() => {
           <a href="#test1" class="indigo white-text active">Toma de datos</a>
         </li>
         <li class="tab col s3">
-          <a href="#test2" class="indigo white-text">tabla de datos</a>
+          <a href="#test2" class="indigo darken-1 white-text">tabla de datos</a>
         </li>
         <li class="tab col s3">
-          <a href="#test3" class="indigo white-text">grafico de datos</a>
+          <a href="#test3" class="indigo darken-2 white-text"
+            >grafico de datos</a
+          >
         </li>
         <li class="tab col s3">
-          <a href="#test4" class="indigo white-text">Datos de paciente</a>
+          <a href="#test4" class="indigo darken-3 white-text"
+            >Datos de paciente</a
+          >
         </li>
       </ul>
     </div>
     <div id="test1" class="col s12">
       <div class="row align-items center">
         <br />
-        <h5 class="indigo container white-text container">TOMA DE DATOS</h5>
+        <h4 class="indigo darken-4 container white-text container">
+          SIGNOS VITALES EN TIEMPO REAL
+        </h4>
         <br />
         <br />
 
         <div class="col s3">
           <Knob class="" readonly v-model="jtemp" :min="0" :max="100" />
-          <a class="white-text btn indigo pulse">Temperatura</a>
+          <a class="white-text btn indigo darken-1 pulse">Temperatura</a>
         </div>
 
         <div class="col s3">
           <Knob class="" readonly v-model="jhrate" :min="0" :max="200" />
-          <a class="white-text btn indigo pulse">Frecuencia Cardiaca</a>
+          <a class="white-text btn indigo darken-2 pulse"
+            >Frecuencia Cardiaca</a
+          >
         </div>
 
         <div class="col s3">
           <Knob class="" readonly v-model="jrrate" :min="0" :max="200" />
-          <a class="white-text btn indigo pulse">Fre. Respiratoria</a>
+          <a class="white-text btn indigo darken-3 pulse">Fre. Respiratoria</a>
         </div>
 
         <div class="col s3">
           <Knob class="" readonly v-model="joxigen" :min="0" :max="150" />
-          <a class="white-text btn indigo pulse">Oxigeno</a>
+          <a class="white-text btn indigo darken-4 pulse">Oxigeno</a>
         </div>
 
         <div class="col s12">
           <br />
           <br />
-          <a class="btn green" @click="addData">ACTUALIZANDO</a>
+
+          <div class="center align-items center container">
+            <div class="col s12">
+              <div class="card purple">
+                <div class="card-content white-text">
+                  <span class="card-title">GURADADO AUTOMATICO DE DATOS</span>
+                  <p>
+                    Una vez son validados los signos vitales tomados por el sensor el sistema procede a guardarlos para que pueda revisarlos mas tarde, si quiere ver los datos actualizados porfavor recargue la pagina.
+                  </p>
+      
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
         </div>
       </div>
 
+      <h4 class="pink container white-text container center">
+        GRAFICA DE SIGNOS VITALES EN TIEMPO REAL
+      </h4>
+
+      <br>
+
+      
+
+      <br>
+
       <Chart ref="primeChart" type="line" :data="basicData" />
+
+      <div class="center align-items center container">
+        <div class="col s12">
+          <div class="card blue lighten-1">
+            <div class="card-content white-text">
+              <span class="card-title center">Valores de la grafica</span>
+              <p>
+                Las lineas en la grafica corresponden a: <br>
+                Azul: Temperatura. <br>
+                Naranja: Oxigeno. <br>
+                Rojo: F. Cardiaca. <br>
+                Purpura: F.Respiratoria
+
+              </p>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <br>
+
+      <div class="center align-items center container">
+        <div class="col s12">
+          <div class="card pink lighten-1">
+            <div class="card-content white-text">
+              <span class="card-title center">ALERTAS</span>
+              <p>
+                Una vez son validados los signos vitales tomados por el sensor el sistema procede a comparar sus signos vitales y verificar si se encuentran datos anomalos, de ser el caso aqui apareceran las recomendaciones a seguir en base a los documentos cientificos mas recientes.
+              </p>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     </div>
 
     <div id="test2" class="col s12">
@@ -244,9 +315,13 @@ onMounted(() => {
     </div>
 
     <div id="test3" class="col s12">
+      
       <Uchart />
     </div>
 
-    <div id="test4" class="col s12">Test 4</div>
+    <div id="test4" class="col s12">
+      <Update/>
+
+    </div>
   </div>
 </template>

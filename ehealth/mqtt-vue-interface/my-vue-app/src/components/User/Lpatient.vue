@@ -61,17 +61,14 @@ export default {
 
       let ex = false;
 
-      us.hasOwnProperty("msg") ? (ex = false) : (ex = true);
+      us.hasOwnProperty("msg") || this.state.cc == '' ? (ex = false) : (ex = true);
 
-      console.log("Exists result:" + ex);
+      console.log(this.state.cc);
 
       return ex;
     },
 
     valPass: async function () {
-      this.exists();
-
-      console.log("valPass Existe: " + (await this.exists()));
 
       let ex = await this.exists();
 
@@ -131,20 +128,29 @@ export default {
 </script>
 
 <template>
-  <div class="">
+  <div class=" container align-items ">
     <br>
-    <div class="row  align-items center">
-      <div class="col s12">
-        <h5 class="white-text indigo darken-4 container">
+    <div class="row  align-items center  card">
+      <div class="col s12 container ">
+        <br>
+
+        <h5 class="indigo-text container">
           CREDENCIALES DEL PACIENTE
         </h5>
+        
         <br>
       </div>
       <div class="divider"></div>
 
       <div class="col s12 m4 l2"><p></p></div>
-      <div class="col s12 m4 l8">
+
+      <div class="input-field col s12 m4 l8">
+        <i class="material-icons prefix">account_circle</i>
+
+        
         <input id="last_name" type="text" v-model="state.cc" />
+        
+
         <label for="last_name">Cedula</label>
         <h6 class="red white-text" v-if="v$.cc.$error">
           {{ v$.cc.$errors[0].$message }}
@@ -156,14 +162,20 @@ export default {
       <br />
 
       <div class="col s12 m4 l2"><p></p></div>
-      <div class="col s12 m4 l8">
+
+      <div class="input-field col s12 m4 l8">
+        <i class="material-icons prefix">lock</i>
+
+        
         <input type="password" v-model="state.password" />
         <label for="password">Contrasenia</label>
         <h6 class="red white-text" v-if="v$.password.$error">
           {{ v$.password.$errors[0].$message }}
         </h6>
       </div>
+
       <div class="col s12 m4 l2"><p></p></div>
+
     </div>
 
     <div class="col s12 align-items center">

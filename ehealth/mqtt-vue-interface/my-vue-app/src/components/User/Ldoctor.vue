@@ -20,7 +20,7 @@ export default {
   setup() {
     const store = useStore();
 
-    let vector = computed(() => store.getters.patients);
+    let vector = computed(() => store.getters.doctors);
 
     const state = reactive({
       cc: "",
@@ -50,7 +50,7 @@ export default {
 
   methods: {
     ...mapActions({
-      get: "GET_PATIENTS",
+      get: "GET_DOCTORS",
     }),
 
     exists: async function () {
@@ -61,7 +61,7 @@ export default {
 
       let ex = false;
 
-      us.hasOwnProperty("msg") ? (ex = false) : (ex = true);
+      us.hasOwnProperty("msg") || this.state.cc == '' ? (ex = false) : (ex = true);
 
       console.log("Exists result:" + ex);
 
@@ -82,9 +82,9 @@ export default {
           "http://localhost:8000/apiV1/doctor_accounts/" + this.state.cc
         );
 
-        const us = await res.json();
+        const us = await res.json();        
 
-        this.state.password == us.user_account.user_password
+        this.state.password == us.doctor_account.doctor_password
           ? (isValid = true)
           : (isValid = false);
 
@@ -107,9 +107,7 @@ export default {
       if (!this.v$.$error && valid == true) {
         let id = this.state.cc;
 
-        //M.toast({ html: "LOGON", classes: "rounded" });
-
-        this.$router.push({ name: "user", params: { id } });
+        this.$router.push({ name: "doctor", params: { id } });
       } else if (valid == false || this.v$.error) {
         M.toast({ html: "DATOS INCORRECTOS", classes: "rounded red" });
       }
@@ -118,24 +116,24 @@ export default {
 
   computed: {
     ...mapGetters({
-      vector: "patients",
+      doctors: "doctors",
     }),
   },
 
   mounted() {
     M.AutoInit();
-
     this.get();
   },
 };
 </script>
 
 <template>
-  <div class="">
+  <div class="container">
     <br>
-    <div class="row align-items center">
-      <div class="col s12">
-        <h5 class="white-text indigo darken-4 container">
+    <div class="row align-items center card">
+      <div class="col s12 ">
+        <br>
+        <h5 class="indigo-text container">
           CREDENCIALES DEL DOCTOR
         </h5>
         <br>
@@ -143,7 +141,8 @@ export default {
       <div class="divider"></div>
 
       <div class="col s12 m4 l2"><p></p></div>
-      <div class="col s12 m4 l8">
+      <div class="input-field col s12 m4 l8">
+        <i class="material-icons prefix">account_circle</i>
         <input id="last_name" type="text" v-model="state.cc" />
         <label for="last_name">Cedula</label>
         <h6 class="red white-text" v-if="v$.cc.$error">
@@ -156,7 +155,8 @@ export default {
       <br />
 
       <div class="col s12 m4 l2"><p></p></div>
-      <div class="col s12 m4 l8">
+      <div class="input-field col s12 m4 l8">
+        <i class="material-icons prefix">lock</i>
         <input type="password" v-model="state.password" />
         <label for="password">Contrasenia</label>
         <h6 class="red white-text" v-if="v$.password.$error">
