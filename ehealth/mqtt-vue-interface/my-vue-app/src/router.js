@@ -2,15 +2,15 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Index from "./components/Index/Index.vue";
 
-import Register from "./components/User/Register.vue";
+import Register from "./components/Registers/Register.vue";
 
-import Login from "./components/User/Login.vue";
+import Login from "./components/Logins/Login.vue";
 
-import User from "./components/User.vue";
+import User from "./components/User/User.vue";
 
 import Doctor from "./components/Doctor/Mdoctor.vue";
 
-import Ptable from "./components/Ptable.vue";
+import Ptable from "./components/User/Ptable.vue";
 
 const routes = [
   { path: "/", component: Index },

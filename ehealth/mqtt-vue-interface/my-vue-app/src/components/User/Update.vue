@@ -30,7 +30,6 @@ export default {
     };
   },
   setup() {
-
     const route = useRoute();
 
     const store = useStore();
@@ -40,8 +39,10 @@ export default {
     return { route, store };
   },
   methods: {
-    asg: async function (){
-      const res = await fetch("http://localhost:8000/apiV1/patients/" + this.route.params.id);
+    asg: async function () {
+      const res = await fetch(
+        "http://localhost:8000/apiV1/patients/" + this.route.params.id
+      );
       const patient = await res.json();
       this.cc = patient.person.person_id;
       this.name = patient.person.name;
@@ -51,11 +52,9 @@ export default {
     },
 
     update: async function () {
-
       this.v$.$validate(); // checks all inputs
 
       if (!this.v$.$error) {
-
         let obj = {
           person_id: this.cc,
           name: this.name,
@@ -63,14 +62,13 @@ export default {
           lastname: this.lname,
           second_lastname: this.slname,
           age: this.bdate,
-        }
+        };
 
-        console.log(obj.person_id)
+        console.log(obj.person_id);
 
         // STORE MUTATION
 
-        this.$store.dispatch("EDIT_PATIENT", obj );
-
+        this.$store.dispatch("EDIT_PATIENT", obj);
       } else {
         M.toast({ html: "RELLLENE LOS DATOS CORRECTAMENTE", classes: "red" });
       }
@@ -83,58 +81,59 @@ export default {
     }),
   },
 
-  validations () {
+  validations() {
     return {
-        cc: {
-          required,
-          minLength: minLength(1),
-          maxLength: maxLength(15),
-          numeric,
-        },
-        name: {
-          required,
-          minLength: minLength(1),
-          maxLength: maxLength(15),
-          alpha,
-        },
-        sname: {
-          required,
-          minLength: minLength(1),
-          maxLength: maxLength(15),
-          alpha,
-        },
-        lname: {
-          required,
-          minLength: minLength(1),
-          maxLength: maxLength(15),
-          alpha,
-        },
-        slname: {
-          required,
-          minLength: minLength(1),
-          maxLength: maxLength(15),
-          alpha,
-        },
-        bdate: { required, minLength: minLength(1), maxLength: maxLength(15) },
-
-      };
-    },
+      cc: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(15),
+        numeric,
+      },
+      name: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(15),
+        alpha,
+      },
+      sname: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(15),
+        alpha,
+      },
+      lname: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(15),
+        alpha,
+      },
+      slname: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(15),
+        alpha,
+      },
+      bdate: { required, minLength: minLength(1), maxLength: maxLength(15) },
+    };
+  },
   mounted() {
     M.AutoInit();
-    this.store.dispatch( "GET_PATIENT", this.route.params.id);
+    this.store.dispatch("GET_PATIENT", this.route.params.id);
     this.asg();
   },
 };
 </script>
 
 <template>
-
-  <div class=" center align-items center container ">
-    <div class="col s12 ">
-      <div class="card pink  darken-1">
+  <div class="center align-items center container">
+    <div class="col s12">
+      <div class="card pink darken-1">
         <div class="card-content white-text">
           <span class="card-title">Actualizacion de datos</span>
-          <p>En este apartado podra actualizar sus datos a excepcion de su cedula.</p>
+          <p>
+            En este apartado podra actualizar sus datos a excepcion de su
+            cedula.
+          </p>
         </div>
       </div>
     </div>
@@ -146,13 +145,12 @@ export default {
         <div class="col s12 container">
           <div class="card row">
             <div class="col s12">
-              <h5 class="indigo-text ">ACTUALIZAR DATOS</h5>
+              <h5 class="indigo-text">ACTUALIZAR DATOS</h5>
             </div>
             <div class="col s12">
               <div class="row">
-
-               <div class="input-field col s12">
-                  <i class="material-icons  prefix">person</i>
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">person</i>
                   <input
                     disabled
                     id="cedula"
@@ -165,11 +163,9 @@ export default {
                   </h6>
                 </div>
 
-
                 <div class="input-field col s12">
                   <i class="material-icons prefix">face</i>
                   <input
-
                     id="ru_name"
                     type="text"
                     class="validate"
@@ -183,7 +179,6 @@ export default {
                 <div class="input-field col s12">
                   <i class="material-icons prefix">account_circle</i>
                   <input
-
                     id="ru_sname"
                     type="text"
                     class="validate"
@@ -197,7 +192,6 @@ export default {
                 <div class="input-field col s12">
                   <i class="material-icons prefix">group</i>
                   <input
-
                     id="ru_lastname"
                     type="text"
                     class="validate"
@@ -211,7 +205,6 @@ export default {
                 <div class="input-field col s12">
                   <i class="material-icons prefix">account_circle</i>
                   <input
-
                     id="ru_slastname"
                     type="text"
                     class="validate"

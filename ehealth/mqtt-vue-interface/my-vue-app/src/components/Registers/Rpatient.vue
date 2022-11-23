@@ -20,16 +20,14 @@ export default {
     };
   },
   setup() {
-    
+    let cedula = ref("");
 
-    let cedula = ref('');
-
-    let contrasenia = ref('');
+    let contrasenia = ref("");
 
     let mostrar = false;
 
     const store = useStore();
-    
+
     let vector = computed(() => store.getters.doctors);
 
     const state = reactive({
@@ -42,7 +40,6 @@ export default {
       uname: "",
       email: "",
       password: "",
-      
     });
 
     const rules = computed(() => {
@@ -78,7 +75,6 @@ export default {
           alpha,
         },
         bdate: { required, minLength: minLength(1), maxLength: maxLength(15) },
-
       };
     });
 
@@ -103,8 +99,6 @@ export default {
       this.state.slname = "";
 
       this.state.bdate = "";
-
-      
     },
 
     isEmpty: async function () {
@@ -183,9 +177,11 @@ export default {
         this.mostrar = true;
 
         this.cleanFields();
-
       } else {
-        M.toast({ html: "USUARIO REGISTRADO O DATOS INCORRECTOS", classes: "red" });
+        M.toast({
+          html: "USUARIO REGISTRADO O DATOS INCORRECTOS",
+          classes: "red",
+        });
       }
     },
   },
@@ -203,26 +199,28 @@ export default {
 </script>
 
 <template>
-
-  <div v-if="mostrar" class=" center align-items center container ">
-    <div class="col s12 ">
+  <div v-if="mostrar" class="center align-items center container">
+    <div class="col s12">
       <div class="card red darken-4">
         <div class="card-content white-text">
           <span class="card-title">REGISTRADO CON EXITO!</span>
-          <p>Porfavor utilice estas credenciales para iniciar sesion.</p>
-          <p>CEDULA: {{cedula}}</p>
-          <p>CONTRASENIA: {{contrasenia}}</p>
+          <p>Porfavor utilice estas credenciales para iniciar sesión.</p>
+          <p>CEDULA: {{ cedula }}</p>
+          <p>CONTRASEÑA: {{ contrasenia }}</p>
         </div>
       </div>
     </div>
   </div>
 
-  <div v-else class=" center align-items center container ">
-    <div class="col s12 ">
+  <div v-else class="center align-items center container">
+    <div class="col s12">
       <div class="card indigo darken-1">
         <div class="card-content white-text">
-          <span class="card-title">Datos de inicio de sesion</span>
-          <p>Una vez complete satisfactoriamente el registro apareceran las credenciales de inicio de sesion en este apartado.</p>
+          <span class="card-title">CREDENCIALES!</span>
+          <p>
+            Una vez complete satisfactoriamente el registro apareceran las
+            credenciales de inicio de sesión en este apartado.
+          </p>
         </div>
       </div>
     </div>
@@ -234,14 +232,12 @@ export default {
         <div class="col s12 container">
           <div class="card row">
             <div class="col s12">
-              <h5 class="indigo-text ">REGISTRO DE PACIENTES</h5>
+              <h5 class="indigo-text">REGISTRO DE PACIENTES</h5>
             </div>
             <div class="col s12">
               <div class="row">
-                
-
                 <div class="input-field col s12">
-                  <i class="material-icons prefix">verified_user</i>
+                  <i class="material-icons prefix">fingerprint</i>
                   <input
                     placeholder="Cedula del paciente"
                     id="cedula"
@@ -255,7 +251,7 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
-                  <i class="material-icons prefix">face</i>
+                  <i class="material-icons prefix">badge</i>
                   <input
                     placeholder="Nombre"
                     id="ru_name"

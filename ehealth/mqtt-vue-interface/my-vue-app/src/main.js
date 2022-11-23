@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 //import './style.css'
 import 'materialize-css/dist/css/materialize.min.css'
-import 'material-design-icons/iconfont/material-icons.css'
+//import 'material-design-icons/iconfont/material-icons.css'
 
 import router from "./router";
 import store from "./store";
@@ -27,7 +27,6 @@ import Calendar from 'primevue/calendar';
 import Checkbox from 'primevue/checkbox';
 import Password from 'primevue/password';
 
-import {FilterService} from 'primevue/api';
 
 createApp(App).use(router).use(store).use(PrimeVue)
   .component("Knob", Knob)

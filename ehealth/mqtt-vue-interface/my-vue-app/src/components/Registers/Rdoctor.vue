@@ -22,9 +22,9 @@ export default {
   setup() {
     let modal2 = ref("blank");
 
-    let cedula = ref('');
+    let cedula = ref("");
 
-    let contrasenia = ref('');
+    let contrasenia = ref("");
 
     let mostrar = false;
 
@@ -190,9 +190,11 @@ export default {
         this.mostrar = true;
 
         this.cleanFields();
-
       } else {
-        M.toast({ html: "USUARIO REGISTRADO O DATOS INCORRECTOS", classes: "red" });
+        M.toast({
+          html: "USUARIO REGISTRADO O DATOS INCORRECTOS",
+          classes: "red",
+        });
       }
     },
   },
@@ -210,26 +212,28 @@ export default {
 </script>
 
 <template>
-
-  <div v-if="mostrar" class=" center align-items center container ">
-    <div class="col s12 ">
+  <div v-if="mostrar" class="center align-items center container">
+    <div class="col s12">
       <div class="card red darken-4">
         <div class="card-content white-text">
           <span class="card-title">REGISTRADO CON EXITO!</span>
-          <p>Porfavor utilice estas credenciales para iniciar sesion.</p>
-          <p>CEDULA: {{cedula}}</p>
-          <p>CONTRASENIA: {{contrasenia}}</p>
+          <p>Porfavor utilice estas credenciales para iniciar sesión.</p>
+          <p>CEDULA: {{ cedula }}</p>
+          <p>CONTRASEÑA: {{ contrasenia }}</p>
         </div>
       </div>
     </div>
   </div>
 
-  <div v-else class=" center align-items center container ">
-    <div class="col s12 ">
+  <div v-else class="center align-items center container">
+    <div class="col s12">
       <div class="card indigo darken-1">
         <div class="card-content white-text">
-          <span class="card-title">Datos de inicio de sesion</span>
-          <p>Una vez complete satisfactoriamente el registro apareceran las credenciales de inicio de sesion en este apartado.</p>
+          <span class="card-title">Datos de inicio de sesión</span>
+          <p>
+            Una vez complete satisfactoriamente el registro aparecerán las
+            credenciales de inicio de sesion en este apartado.
+          </p>
         </div>
       </div>
     </div>
@@ -241,14 +245,14 @@ export default {
         <div class="col s12 container">
           <div class="row card">
             <div class="col s12">
-              <h5 class="indigo-text ">REGISTRO DE DOCTORES</h5>
+              <h5 class="indigo-text">REGISTRO DE DOCTORES</h5>
             </div>
             <div class="col s12">
               <div class="row">
                 <div class="input-field col s12">
                   <i class="material-icons prefix">list_alt</i>
                   <input
-                    placeholder="Titulos"
+                    placeholder="Títulos"
                     id="cedula"
                     type="text"
                     class="validate"
@@ -260,7 +264,7 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
-                  <i class="material-icons  prefix">person</i>
+                  <i class="material-icons prefix">fingerprint</i>
                   <input
                     placeholder="Cedula del doctor"
                     id="cedula"
@@ -274,7 +278,7 @@ export default {
                 </div>
 
                 <div class="input-field col s12">
-                  <i class="material-icons prefix">face</i>
+                  <i class="material-icons prefix">badge</i>
 
                   <input
                     placeholder="Nombre"

@@ -20,7 +20,7 @@ export default {
   setup() {
     const store = useStore();
 
-    let vector = computed(() => store.getters.doctors);
+    let vector = computed(() => store.getters.patients);
 
     const state = reactive({
       cc: "",
@@ -50,41 +50,39 @@ export default {
 
   methods: {
     ...mapActions({
-      get: "GET_DOCTORS",
+      get: "GET_PATIENTS",
     }),
 
     exists: async function () {
       const res = await fetch(
-        "http://localhost:8000/apiV1/doctor_accounts/" + this.state.cc
+        "http://localhost:8000/apiV1/user_accounts/" + this.state.cc
       );
       const us = await res.json();
 
       let ex = false;
 
-      us.hasOwnProperty("msg") || this.state.cc == '' ? (ex = false) : (ex = true);
+      us.hasOwnProperty("msg") || this.state.cc == ""
+        ? (ex = false)
+        : (ex = true);
 
-      console.log("Exists result:" + ex);
+      console.log(this.state.cc);
 
       return ex;
     },
 
     valPass: async function () {
-      this.exists();
-
-      console.log("valPass Existe: " + (await this.exists()));
-
       let ex = await this.exists();
 
       let isValid = false;
 
       if (ex == true) {
         const res = await fetch(
-          "http://localhost:8000/apiV1/doctor_accounts/" + this.state.cc
+          "http://localhost:8000/apiV1/user_accounts/" + this.state.cc
         );
 
-        const us = await res.json();        
+        const us = await res.json();
 
-        this.state.password == us.doctor_account.doctor_password
+        this.state.password == us.user_account.user_password
           ? (isValid = true)
           : (isValid = false);
 
@@ -107,7 +105,9 @@ export default {
       if (!this.v$.$error && valid == true) {
         let id = this.state.cc;
 
-        this.$router.push({ name: "doctor", params: { id } });
+        // M.toast({ html: "LOGON", classes: "rounded" });
+
+        this.$router.push({ name: "user", params: { id } });
       } else if (valid == false || this.v$.error) {
         M.toast({ html: "DATOS INCORRECTOS", classes: "rounded red" });
       }
@@ -116,35 +116,39 @@ export default {
 
   computed: {
     ...mapGetters({
-      doctors: "doctors",
+      vector: "patients",
     }),
   },
 
   mounted() {
     M.AutoInit();
+
     this.get();
   },
 };
 </script>
 
 <template>
-  <div class="container">
-    <br>
+  <div class="container align-items">
+    <br />
     <div class="row align-items center card">
-      <div class="col s12 ">
-        <br>
-        <h5 class="indigo-text container">
-          CREDENCIALES DEL DOCTOR
-        </h5>
-        <br>
+      <div class="col s12 container">
+        <br />
+
+        <h5 class="indigo-text container">CREDENCIALES DEL PACIENTE</h5>
+
+        <br />
       </div>
       <div class="divider"></div>
 
       <div class="col s12 m4 l2"><p></p></div>
+
       <div class="input-field col s12 m4 l8">
-        <i class="material-icons prefix">account_circle</i>
+        <i class="material-icons prefix">face</i>
+
         <input id="last_name" type="text" v-model="state.cc" />
-        <label for="last_name">Cedula</label>
+
+        <label for="last_name">Cédula</label>
         <h6 class="red white-text" v-if="v$.cc.$error">
           {{ v$.cc.$errors[0].$message }}
         </h6>
@@ -155,14 +159,17 @@ export default {
       <br />
 
       <div class="col s12 m4 l2"><p></p></div>
+
       <div class="input-field col s12 m4 l8">
-        <i class="material-icons prefix">lock</i>
+        <i class="material-icons prefix">key</i>
+
         <input type="password" v-model="state.password" />
-        <label for="password">Contrasenia</label>
+        <label for="password">Contraseña</label>
         <h6 class="red white-text" v-if="v$.password.$error">
           {{ v$.password.$errors[0].$message }}
         </h6>
       </div>
+
       <div class="col s12 m4 l2"><p></p></div>
     </div>
 
