@@ -1,9 +1,11 @@
 <script setup>
+// IMPORT COMPONENTS
 import Ibar from "/src/components/Bars/Ibar.vue";
 import Footer from "/src/components/Bars/Footer.vue";
 </script>
 
 <template>
+
   <Ibar />
   <div class="container">
     <img

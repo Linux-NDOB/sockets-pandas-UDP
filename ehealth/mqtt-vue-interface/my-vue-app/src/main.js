@@ -1,4 +1,12 @@
 import { createApp } from 'vue'
+
+import jQuery from 'jquery';
+window.$ = jQuery;
+
+import "datatables.net-dt/js/dataTables.dataTables";
+import "datatables.net-dt/css/jquery.dataTables.min.css";
+
+
 //import './style.css'
 import 'materialize-css/dist/css/materialize.min.css'
 //import 'material-design-icons/iconfont/material-icons.css'
@@ -21,7 +29,7 @@ import Button from 'primevue/button';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';     //optional for column grouping
-import Row from 'primevue/row';    
+import Row from 'primevue/row';
 import Chart from 'primevue/chart';
 import Calendar from 'primevue/calendar';
 import Checkbox from 'primevue/checkbox';

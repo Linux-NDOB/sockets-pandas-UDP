@@ -7,10 +7,12 @@ import { useRouter, useRoute } from "vue-router";
 import Chart from "primevue/chart";
 
 // VARS
+//192.168.100.231
 const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
-const client = new Paho.MQTT.Client("172.19.0.1", 9001, "futon");
+//const client = new Paho.MQTT.Client("172.19.0.1", 9001, "futon");
+const client = new Paho.MQTT.Client("192.168.100.231", 9001, "futon");
 
 // SENSORS
 let jhrate = ref(0);
@@ -35,11 +37,11 @@ let month = new Date().getMonth(); // Get the month (0-11)
 
 // GENERAL CHART
 
-const primeChart = ref();
-const primeT = ref();
-const primeO = ref();
-const primeFc = ref();
-const primeFr = ref();
+const primeChart = ref(null);
+const primeT = ref(null);
+const primeO = ref(null);
+const primeFc = ref(null);
+const primeFr = ref(null);
 
 let limit = 0;
 let limitT = 0;
@@ -203,7 +205,7 @@ async function send() {
     joxigen.value > 1 &&
     jtemp.value > 1
   ) {
-    const res = await fetch("http://localhost:8000/apiV1/vitals/", {
+    const res = await fetch("http://192.168.100.231:8000/apiV1/vitals/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

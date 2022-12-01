@@ -1,4 +1,6 @@
 <template>
+<!--INDEX NAVBAR WITH NORMAL OPTIONS FOR MAIN PAGE-->
+
   <nav class="container">
     <div class="nav-wrapper indigo darken-3">
       <a href="#!" class="brand-logo"

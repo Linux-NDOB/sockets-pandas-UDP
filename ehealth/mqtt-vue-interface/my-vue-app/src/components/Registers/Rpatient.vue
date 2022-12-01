@@ -103,7 +103,7 @@ export default {
 
     isEmpty: async function () {
       const res = await fetch(
-        "http://localhost:8000/apiV1/patients/" + this.state.cc
+        "http://192.168.100.231:8000/apiV1/patients/" + this.state.cc
       );
       const us = await res.json();
 
@@ -133,7 +133,7 @@ export default {
         console.log("is not empty");
 
         const res = await fetch(
-          "http://localhost:8000/apiV1/patients/" + this.state.cc
+          "http://192.168.100.231:8000/apiV1/patients/" + this.state.cc
         );
         const us = await res.json();
 
@@ -324,9 +324,6 @@ export default {
                 <div class="center">
                   <button
                     class="btn purple darken-4"
-                    :class="modal2"
-                    href="#modal2"
-                    name="doctor"
                     type="submit"
                     @click="send2"
                   >

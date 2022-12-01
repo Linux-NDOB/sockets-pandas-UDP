@@ -45,7 +45,7 @@ export default {
 
     const v$ = useVuelidate(rules, state);
 
-    return { state, v$, vector };
+    return { state, v$, vector , store};
   },
 
   methods: {
@@ -55,7 +55,7 @@ export default {
 
     exists: async function () {
       const res = await fetch(
-        "http://localhost:8000/apiV1/doctor_accounts/" + this.state.cc
+        "http://192.168.100.231:8000/apiV1/doctor_accounts/" + this.state.cc
       );
       const us = await res.json();
 
@@ -81,7 +81,7 @@ export default {
 
       if (ex == true) {
         const res = await fetch(
-          "http://localhost:8000/apiV1/doctor_accounts/" + this.state.cc
+          "http://192.168.100.231:8000/apiV1/doctor_accounts/" + this.state.cc
         );
 
         const us = await res.json();
@@ -110,6 +110,7 @@ export default {
         let id = this.state.cc;
 
         this.$router.push({ name: "doctor", params: { id } });
+        this.store.dispatch("login");
       } else if (valid == false || this.v$.error) {
         M.toast({ html: "DATOS INCORRECTOS", classes: "rounded red" });
       }

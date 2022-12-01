@@ -1,70 +1,54 @@
-<script>
-import { reactive, computed } from "vue";
-
-export default {
-  props: ["cc"],
-
-  data() {
-    return {
-      patients: {},
-    };
-  },
-
-  methods: {
-    get: async function () {
-      const ans = await fetch("http://localhost:8000/apiV1/patients/");
-
-      const con = await ans.json();
-
-      this.patients = con.persons;
-
-      console.log(con.persons);
-    },
-  },
-
-  mounted() {
-    M.AutoInit();
-    this.get();
-  },
-};
-</script>
-
 <template>
-  <div class="card">
-    <h5 class="indigo white-text center">LISTADO DE PACIENTES</h5>
-
-    <DataTable
-      :value="patients"
-      :scrollable="true"
-      scrollHeight="400px"
-      :loading="false"
-    >
-      <Column
-        field="person_id"
-        header="Cedula"
-        style="min-width: 200px"
-      ></Column>
-      <Column field="name" header="Nombre" style="min-width: 200px"></Column>
-      <Column
-        field="second_name"
-        header="S. Nombre"
-        style="min-width: 200px"
-      ></Column>
-      <Column
-        field="lastname"
-        header="Apellido"
-        style="min-width: 200px"
-      ></Column>
-      <Column
-        field="second_lastname"
-        header="S. Apellido"
-        style="min-width: 200px"
-      ></Column>
-      <Column
-        field="age"
-        header="F. Nacimiento"
-        style="min-width: 200px"
-      ></Column>
-    </DataTable>
+  <div>
+      <table class="centered striped" id="datatable">
+      <thead>
+        <tr>
+          <th>C.C</th>
+          <th>Nombre</th>
+          <th>S.Nombre</th>
+          <th>Apellido</th>
+          <th>S.Apellido</th>
+          <th>F.Nacimiento</th>      
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in products" :key="item.person_id">
+          <td>{{ item.person_id }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.second_name }}</td>
+          <td>{{ item.lastname }}</td>
+          <td>{{ item.second_lastname }}</td>
+          <td>{{ item.age }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
+<script>
+import "datatables.net-dt/js/dataTables.dataTables";
+import "datatables.net-dt/css/jquery.dataTables.min.css";
+import axios from "axios";
+import $ from "jquery";
+export default {
+  mounted() {
+    axios.get("http://192.168.100.231:8000/apiV1/patients/" ).then((response) => {
+      this.products = response.data.persons;
+      $("#datatable").DataTable();
+      console.log(response.data);
+    });
+  },
+  data: function () {
+    return {
+      products: [],
+    };
+  },
+  watch: {
+  products(val) {
+    $('#datatable').DataTable().destroy();
+    this.$nextTick(()=> {
+      $('#datatable').DataTable()
+    });
+   }
+  }
+};
+</script>

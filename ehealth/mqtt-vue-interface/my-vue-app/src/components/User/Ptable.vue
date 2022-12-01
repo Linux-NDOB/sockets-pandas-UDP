@@ -6,14 +6,14 @@ export default {
 
   data() {
     return {
-      vitals: {},
+      vitals: [],
     };
   },
 
   methods: {
     get: async function () {
       console.log(this.cc);
-      const ans = await fetch("http://localhost:8000/apiV1/vitals/" + this.cc);
+      const ans = await fetch("http://192.168.100.231:8000/apiV1/vitals/" + this.cc);
 
       const con = await ans.json();
 

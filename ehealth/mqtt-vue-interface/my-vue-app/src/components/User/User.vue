@@ -24,7 +24,7 @@ export default {
   methods: {
     get: async function () {
       const res = await fetch(
-        "http://localhost:8000/apiV1/persons/" + this.$route.params.id
+        "http://192.168.100.231:8000/apiV1/persons/" + this.$route.params.id
       );
 
       const us = await res.json();

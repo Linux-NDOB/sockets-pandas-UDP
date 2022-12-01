@@ -27,6 +27,7 @@ export default {
       lname: "",
       slname: "",
       bdate: "",
+      title: ""
     };
   },
   setup() {
@@ -41,14 +42,16 @@ export default {
   methods: {
     asg: async function () {
       const res = await fetch(
-        "http://192.168.100.231:8000/apiV1/patients/" + this.route.params.id
+        "http://192.168.100.231:8000/apiV1/persons/" + this.route.params.id
       );
       const patient = await res.json();
+      console.log(patient);
       this.cc = patient.person.person_id;
       this.name = patient.person.name;
       this.sname = patient.person.second_name;
       this.lname = patient.person.lastname;
       this.slname = patient.person.second_lastname;
+     
     },
 
     update: async function () {
@@ -118,7 +121,7 @@ export default {
   },
   mounted() {
     M.AutoInit();
-    this.store.dispatch("GET_PATIENT", this.route.params.id);
+    this.store.dispatch("GET_DOCTOR", this.route.params.id);
     this.asg();
   },
 };

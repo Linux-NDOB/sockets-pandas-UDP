@@ -1,4 +1,6 @@
 <template>
+<!--FOOTER FOR ALL COMPONENTS-->
+
   <footer class="page-footer indigo darken-4 container">
     <div class="container">
       <div class="row">

@@ -14,7 +14,7 @@ let tit = [];
 
 async function getAll() {
   const res = await fetch(
-    "http://localhost:8000/apiV1/vitals/" + route.params.id
+    "http://192.168.100.231:8000/apiV1/vitals/" + route.params.id
   );
   const patients = await res.json();
 
