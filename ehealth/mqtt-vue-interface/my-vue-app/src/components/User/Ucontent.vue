@@ -19,10 +19,10 @@ let jhrate = ref(0);
 let jrrate = ref(0);
 let joxigen = ref(0);
 let jtemp = ref(0);
-//let weight = ref(0);
-//let height = ref(0);
-let weight = 90;
-let height = 175;
+let jweight = ref(0);
+let jheight = ref(0);
+//let weight = 90;
+//let height = 175;
 
 // DATE
 let day = new Date().getDate(); // Get the day as a number (1-31)
@@ -50,10 +50,10 @@ let limitFc = 0;
 let limitFr = 0;
 
 const addData = () => {
-  joxigen.value = 95;
-  jhrate.value = 120;
-  jrrate.value = 100;
-  jtemp.value = 30;
+  //joxigen.value = 95;
+  //jhrate.value = 120;
+  //jrrate.value = 100;
+  //jtemp.value = 30;
 
   const chart = primeChart.value.chart;
   const chartT = primeT.value.chart;
@@ -190,12 +190,14 @@ function onMessageArrived(message) {
   let payload = message.payloadString;
   let json = JSON.parse(payload);
 
-  let { hrate, rrate, oxigen, temp } = json;
+  let { hrate, rrate, oxigen, temp, weight, height } = json;
 
   jhrate.value = hrate;
   jrrate.value = rrate;
   joxigen.value = oxigen;
   jtemp.value = temp;
+  jweight.value = weight;
+  jheight.value = height;
 }
 
 async function send() {
@@ -221,9 +223,9 @@ async function send() {
 
         resp_rate: jrrate.value,
 
-        weight: weight,
+        weight: jweight,
 
-        height: height,
+        height: jheight,
 
         day_taken: day,
 
@@ -249,6 +251,7 @@ let timer;
 function startTimer() {
   timer = setInterval(function () {
     addData();
+    //send();
   }, 5000);
 }
 
@@ -329,12 +332,12 @@ onMounted(() => {
         </div>
 
         <div class="col s4">
-          <Knob class="" readonly v-model="jrrate" :min="0" :max="200" />
-          <a class="white-text btn indigo darken-3 pulse">Peso(kg)</a>
+          <Knob class="" readonly v-model="jweight" :min="0" :max="200" />
+          <a class="white-text btn indigo darken-3 pulse">Peso(gr)</a>
         </div>
 
         <div class="col s4">
-          <Knob class="" readonly v-model="joxigen" :min="0" :max="150" />
+          <Knob class="" readonly v-model="jheight" :min="0" :max="200" />
           <a class="white-text btn indigo darken-4 pulse">Altura(cm)</a>
         </div>
 
