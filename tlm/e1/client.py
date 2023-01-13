@@ -86,12 +86,12 @@ while True:
             3) Ver el total de participantes""")
     
 
-    message = input("Introduzca el numero 1: ")
+    message = input("Introduzca el numero: ")
 
 
 
     if(message == '1'):
-        print('seleccionado 1')
+        print('')
         datos()
 
     else:
@@ -107,6 +107,6 @@ while True:
     #El mensaje es mostrado por pantalla
     print (modifiedMessage)
     #Se cierra la conexión al socket
-    client_socket.close()
+    #client_socket.close()
 
 
